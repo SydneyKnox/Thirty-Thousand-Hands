@@ -1,0 +1,46 @@
+/* 
+Custom CSS for...
+'Modern Business' HTML Theme by Start Bootstrap
+
+All Start Bootstrap themes are licensed under Apache 2.0. 
+For more info and more free Bootstrap 3 HTML themes, visit http://startbootstrap.com!
+*/
+
+/* Global Styles */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.vertical-align{
+    display:flex;
+    align-items:center;
+    text-align:center;
+}
+
+.home-banner{
+    background-color: #00B2B9;
+}
+
+.home-banner .img-responsive{
+    height:100%;
+    width:20%;
+    margin: 0 auto;
+}
+
+#header {
+    background-color: #555B6E;
+}
+
+a{
+    color:#2C2B3C;
+}
+
+a:hover{
+    color:#3E3C54;
+}

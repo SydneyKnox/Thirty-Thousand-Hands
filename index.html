@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+
+    <!-- Meta-Information -->
+    <title>ACME Inc.</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="ACME Inc.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Vendor: Bootstrap Stylesheets http://getbootstrap.com -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <!-- Our Website CSS Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Vendor: Javascripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    
+   
+</head>
+<body ng-app="tutorialWebApp" style="background-color:#DA5552;">
+
+
+    <!-- Our Website Content Goes Here -->
+    <div ng-include='"templates/header.html"'></div>
+    <!-- Sign-In PopUp -->
+    <!-- Modal -->
+    <div ng-controller="SignInCtrl">
+        <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form role="form" name="regForm" class="form-signin">
+                <div class="form-group">
+                  <label for="usrname">Username</label>
+                  <input type="text" class="form-control" id="username" placeholder="Enter Username" ng-model="user.username" required>
+                  <!-- TODO: put in error responses-->
+                </div>
+                <div class="form-group">
+                  <label for="psw">Password</label>
+                  <input type="text" class="form-control" id="password" placeholder="Enter password" ng-model="user.password" required>
+                </div>
+                <div class="checkbox">
+                <!-- TODO: implement remember me box?-->
+                  <label><input type="checkbox" value="" checked>Remember me</label>
+                </div>
+                <button type="submit" id="signInBtn" ng-disabled = "!user.username || !user.password" class="btn btn-default btn-success btn-block" ng-click="signIn();">Login</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal">Cancel</button>
+              <p>Not a member? <a href="#/signup" data-dismiss="modal">Sign Up</a></p>
+              <!--TODO: implement password forgetting stuff...-->
+              <p>Forgot <a href="#">Password?</a></p>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+    <div ng-view></div>
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src= "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+
+    <!-- Socket.IO setup -->
+    <script>
+      
+      var socket = io.connect();
+
+    </script>
+
+    <!-- Firebase setup -->
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-database.js"></script>
+
+    <!-- Our Website Javascripts -->
+    <script src="js/main.js"></script>
+    <script src="partials/signup/signup.js"></script>
+    <script src="partials/signin/signin.js"></script>
+</body>
+</html>
