@@ -4,6 +4,7 @@
 var app = angular.module('tutorialWebApp', [
   'ngRoute',
   'ui.bootstrap',
+  'ui.mask',
   'tutorialWebApp.signup',
   'tutorialWebApp.signin',
   'tutorialWebApp.NPSignUp',
