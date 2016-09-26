@@ -12,14 +12,7 @@ angular.module('tutorialWebApp.signup', ['ngRoute','firebase'])
 
 .controller('SignUpCtrl', ['$scope', '$firebaseAuth', function ($scope, $firebaseAuth) {
     console.log("SignUp Controller reporting for duty.");
-    var config = {
-            apiKey: "AIzaSyDYyKejWwPDBG3WuU32DA7Fyj71qWVJMbA",
-            authDomain: "nonprofit-91165.firebaseapp.com",
-            databaseURL: "https://nonprofit-91165.firebaseio.com",
-            storageBucket: "nonprofit-91165.appspot.com",
-            messagingSenderId: "869188628673"
-    };
-    firebase.initializeApp(config);    
+    
 
     $scope.signUp = function(){
         var txtEmail = $scope.user.email;

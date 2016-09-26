@@ -3,8 +3,11 @@
  */
 var app = angular.module('tutorialWebApp', [
   'ngRoute',
+  'ui.bootstrap',
   'tutorialWebApp.signup',
-  'tutorialWebApp.signin']
+  'tutorialWebApp.signin',
+  'tutorialWebApp.NPSignUp',
+  'tutorialWebApp.profSignUp']
 );
 
 /**
