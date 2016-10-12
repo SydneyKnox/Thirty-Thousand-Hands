@@ -9,10 +9,29 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
   });
 }])
 
+
 .controller('NPSignUpCtrl', ['$scope', '$firebaseAuth', function ($scope, $firebaseAuth) {
     console.log("NPSignUp Controller reporting for duty.");
+    $scope.isCollapsed = false;
+    $scope.isCollapsedHorizontal = false;
+    $scope.clicked = false;
     
-    function registerUser(email, password){
+    var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
+    var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
+    var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
+    var Technology = ["Engineerng", "Computer Science", "Analytics"]; 
+    var Environment = ["Sustainability", "Natural Sciences", "Urban and Regional Planning", "Gardening"];
+    var Business = ["Accounting", "Marketing", "Entrepreneurship", "Statistics", "Economy", "Fundraising and Philanthropy"];
+    var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
+    $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology, 
+                         "Environment": Environment, "Business": Business, "Health": Health};
+
+    
+    $scope.checkModel = {
+        
+    };
+       
+    function registerUser(email, password, phoneNumber, skills, username){
         
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .catch(function(error){//this error checking should catch already exists type stuff
@@ -25,6 +44,20 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                 console.log("successfully authorized user");
             
                 firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(function(){
+                         console.log("successfully signed in new user");
+                         firebase.database().ref('nonprofit/' + username).set({
+                            email: email,
+                            password: password,
+                            phone: phoneNumber,
+                            skills: skills
+                         }).catch(function(error){
+                             var errorcode = error.code;
+                             var errorMessage = error.message;
+                             console.log("Error: " + errorMessage);
+                             return false;
+                         });
+                })
                 .catch(function(error){
                     console.log("Error: " + error.message);
                     return false;
@@ -32,12 +65,25 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                 return true;
             });   
     };
+    
+    $scope.checkStuff = function(){
+        console.log("checkStuff");
+        angular.forEach($scope.checkModel.value, function (value, key) {
+          if (value) {
+          
+            console.log(key);
+         
+          }
+        });
+    }
         
-    function addUserToDataBase(username, email, password, phoneNumber){
+    function addUserToDataBase(username, email, password, phoneNumber, skills){
+
          firebase.database().ref('nonprofit/' + username).set({
             email: email,
             password: password,
-            phone: phoneNumber
+            phone: phoneNumber,
+            skills: skills
          }).catch(function(error){
              var errorcode = error.code;
              var errorMessage = error.message;
@@ -52,14 +98,23 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         var txtPassword = $scope.user.password;
         var username = $scope.user.username;
         var phoneNumber = $scope.phonenumber;
+        var skills = [];
         
+        angular.forEach($scope.checkModel.value, function (value, key) {
+          if (value) {
+          
+            console.log(key);
+            skills.push(key);
+          }
+        });
+        
+        console.log(skills);
         if(!$scope.regForm.$invalid){
             console.log("Valid form Submission");
-            
-            var registered = registerUser(txtEmail, txtPassword);
-            var databased = addUserToDataBase(username, txtEmail, txtPassword, phoneNumber);
-            
-            if(databased){
+      
+            var registered = registerUser(txtEmail, txtPassword,phoneNumber, skills, username);
+
+            if(registered){
                 console.log("All successful");
             }else{
                 console.log("Database Failed");

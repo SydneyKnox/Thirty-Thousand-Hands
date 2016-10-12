@@ -8,7 +8,8 @@ var app = angular.module('tutorialWebApp', [
   'tutorialWebApp.signup',
   'tutorialWebApp.signin',
   'tutorialWebApp.NPSignUp',
-  'tutorialWebApp.profSignUp']
+  'tutorialWebApp.profSignUp',
+  'tutorialWebApp.header']
 );
 
 /**
@@ -27,8 +28,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-app.controller('PageCtrl', function(){
+app.controller('PageCtrl',['$scope', '$firebaseAuth', function($scope, $firebaseAuth){
     console.log("Page Controller Reporting for duty");
-})
+    
+    
+}]);
 
 
