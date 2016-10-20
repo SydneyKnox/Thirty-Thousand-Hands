@@ -33,6 +33,10 @@ body {
     margin: 0 auto;
 }
 
+.circle{
+    border-radius: 50%;
+}
+
 #header {
     background-color: #555B6E;
 }

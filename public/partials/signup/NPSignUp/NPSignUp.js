@@ -10,7 +10,8 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
 }])
 
 
-.controller('NPSignUpCtrl', ['$scope', '$firebaseAuth', function ($scope, $firebaseAuth) {
+.controller('NPSignUpCtrl', ['$scope', '$firebaseAuth', '$location', '$rootScope', '$window', 
+    function ($scope, $firebaseAuth, $location, $rootScope, $window) {
     console.log("NPSignUp Controller reporting for duty.");
     $scope.isCollapsed = false;
     $scope.isCollapsedHorizontal = false;
@@ -46,28 +47,42 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                 firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function(){
                          console.log("successfully signed in new user");
-                         firebase.database().ref('nonprofit/' + username).set({
-                            email: email,
-                            password: password,
-                            phone: phoneNumber,
-                            skills: skills
-                         }).catch(function(error){
-                             var errorcode = error.code;
-                             var errorMessage = error.message;
-                             console.log("Error: " + errorMessage);
-                             return false;
+                         var numNP = firebase.database().ref('numNonprofits');
+                         numNP.once("value")
+                          .then(function(snapshot) {
+                            var num = snapshot.val();
+                            
+                            
+                            firebase.database().ref('nonprofit/' + num).set({
+                                username: username,
+                                email: email,
+                                password: password,
+                                phone: phoneNumber,
+                                skills: skills
+                            }).catch(function(error){
+                                 var errorcode = error.code;
+                                 var errorMessage = error.message;
+                                 console.log("Error: " + errorMessage);
+                                 return false;
+                            });
+                            firebase.database().ref('numNonprofits').set(num + 1);
+                            console.log("new num: " + (num + 1));
                          });
+                         //numNP.once("value").then(function(snapshot){})
+                         
+                        
                 })
                 .catch(function(error){
                     console.log("Error: " + error.message);
                     return false;
                 });
                 return true;
-            });   
+            });
+        return true;
     };
     
     $scope.checkStuff = function(){
-        console.log("checkStuff");
+        //console.log("checkStuff");
         angular.forEach($scope.checkModel.value, function (value, key) {
           if (value) {
           
@@ -77,22 +92,6 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         });
     }
         
-    function addUserToDataBase(username, email, password, phoneNumber, skills){
-
-         firebase.database().ref('nonprofit/' + username).set({
-            email: email,
-            password: password,
-            phone: phoneNumber,
-            skills: skills
-         }).catch(function(error){
-             var errorcode = error.code;
-             var errorMessage = error.message;
-             console.log("Error: " + errorMessage);
-             return false;
-         });
-         return true;
-    };
-    
     $scope.signUp = function(){
         var txtEmail = $scope.user.email;
         var txtPassword = $scope.user.password;
@@ -116,6 +115,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
 
             if(registered){
                 console.log("All successful");
+                $location.url('/');
             }else{
                 console.log("Database Failed");
             }
