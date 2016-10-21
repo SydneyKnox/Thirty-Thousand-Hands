@@ -20,7 +20,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
     var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
     var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
     var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
-    var Technology = ["Engineerng", "Computer Science", "Analytics"]; 
+    var Technology = ["Engineering", "Computer Science", "Analytics"]; 
     var Environment = ["Sustainability", "Natural Sciences", "Urban and Regional Planning", "Gardening"];
     var Business = ["Accounting", "Marketing", "Entrepreneurship", "Statistics", "Economy", "Fundraising and Philanthropy"];
     var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];

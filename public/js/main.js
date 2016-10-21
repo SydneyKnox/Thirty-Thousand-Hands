@@ -37,18 +37,21 @@ app.controller('homeCtrl',['$scope', '$firebaseAuth', '$location', '$rootScope',
     $scope.nonprofitNames = [];
     
     function getData(){
-        var ref = firebase.database().ref("nonprofit/");
+        var ref = firebase.database().ref("numNonprofits/");
         
         ref.once("value")
           .then(function(snapshot){
             if(snapshot.exists()){
-                $scope.email = snapshot.child("email/").val();
-                console.log($scope.email);
-                $scope.phoneNumber = snapshot.child("phone/").val();
-                $scope.skills = snapshot.child("skills/").val();
-                console.log($scope.skills);
+                var i=0;
+                for(i=0;i<4;i++){
+                    var numOne = Math.random();
+                    numOne = Math.floor(numOne*snapshot.val());
+                    if(!$scope.nonprofitNames.includes(numOne)){
+                        $scope.nonprofitNames.push(numOne);
+                    }
+                }
+                console.log($scope.nonprofitNames);
                 $scope.$apply();
-                //$window.location.reload();
             } else{
                 console.log("snapshot does not exist");
             }
@@ -58,17 +61,8 @@ app.controller('homeCtrl',['$scope', '$firebaseAuth', '$location', '$rootScope',
           });
     };
     
-    function checkPhase(){
-        if ($scope.$$phase != '$apply' && $scope.$$phase != '$digest' &&(!$scope.$root || ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest'))) {
-            //$scope.$apply();
-            $window.location.reload();
-        }            
-    }
-
     
-    
-    
-   // getData();
+    getData();
 
     
 }]);

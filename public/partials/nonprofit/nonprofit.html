@@ -1,6 +1,21 @@
-<div>
-    <h1>{{url}}</h1>
-    <h1>{{email}}</h1>
-    <h1>{{phoneNumber}}</h1>
-    <h1 ng-repeat="skill in skills">{{skill}}</h1>
+<div class="container-fluid home-banner">
+    <div id="logo" class="text-center" style="height:300px;">
+        <a href="#/nonprofit/id3"><img ng-src="/imgs/puppy.jpg" class="circle" style="padding-top: 30px;padding-bottom:20px;" alt="Non-Profit"></a>
+    </div>
+    <div class="row vertical-align">
+        <div id = "info" class = "container col-sm-6" style="height:300px;background-color:#00B2B9;">
+            <h1><a href="#/forNP">Info:</a></h1>
+            <p>{{email}}</p>
+            <p>{{phoneNumber}}</p>
+        </div>
+        <div id="PastProjects" class = "col-sm-6" style="height:300px;background-color:#00B2B9;">
+            <h1><a href="#/forProfs">Past Projects</a></h1>
+        </div>
+    </div>
+    <div style="height:300px;">
+        <div id="NonProfits" class="col-sm-3" style="float:left;height:300px;" ng-repeat="skill in skills">
+                <img ng-src="/imgs/puppy.jpg" class="img-responsive circle" style="width:auto;height:50%;border-radius:50%;" alt="Non-Profit">
+                <p style="text-center">{{skill}}</p>
+        </div>
+    </div>
 </div>
