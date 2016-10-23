@@ -54,21 +54,31 @@ angular.module('tutorialWebApp.profSignUp', ['ngRoute','firebase'])
             })
             .then(function(){
                 console.log("successfully authorized user");
-            
+                
                 firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function(){
                     console.log("successfully signed in new user");
-                         firebase.database().ref('Professors/' + username).set({
-                            email: email,
-                            password: password,
-                            phone: phoneNumber,
-                            skills: skills
-                         }).catch(function(error){
-                             var errorcode = error.code;
-                             var errorMessage = error.message;
-                             console.log("Error: " + errorMessage);
-                             return false;
-                         });
+                    
+                        var numProfs = firebase.database().ref('numProfs');
+                            numProfs.once("value")
+                              .then(function(snapshot){
+                                 var num = snapshot.val();
+                                  
+                                 firebase.database().ref('Professors/' + num).set({
+                                    username: username,
+                                    email: email,
+                                    phone: phoneNumber,
+                                    skills: skills
+                                 }).catch(function(error){
+                                     var errorcode = error.code;
+                                     var errorMessage = error.message;
+                                     console.log("Error: " + errorMessage);
+                                     return false;
+                                 });
+                                 firebase.database().ref('numProfs').set(num + 1);
+                                 console.log("new num: " + (num + 1));
+                            })
+                         
                 })
                 .catch(function(error){
                     console.log("Error: " + error.message);

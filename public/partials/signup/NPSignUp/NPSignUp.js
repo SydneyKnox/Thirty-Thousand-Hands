@@ -56,7 +56,6 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                             firebase.database().ref('nonprofit/' + num).set({
                                 username: username,
                                 email: email,
-                                password: password,
                                 phone: phoneNumber,
                                 skills: skills
                             }).catch(function(error){
