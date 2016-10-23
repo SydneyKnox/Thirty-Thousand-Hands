@@ -70,7 +70,9 @@
                 </li>
             </ul>
             <ul class= "nav navbar-nav navbar-right">
-                <li><a href="#/signup">Sign Up</a>
+                <li><a ng-show="userSignedIn" href="#/profile">My Profile</a>
+                </li>
+                <li><a ng-show="!userSignedIn" href="#/signup">Sign Up</a>
                 </li>
                 <li><a ng-show ="!userSignedIn" data-toggle="modal" data-target="#myModal">Sign In</a>
                 </li>
@@ -146,8 +148,8 @@
     <script src="partials/signup/NPSignUp/NPSignUp.js"></script>
     <script src="partials/signup/profSignUp/profSignUp.js"></script>
     <script src="partials/nonprofit/nonprofit.js"></script>
-    
+    <script src="partials/profile/profile.js"></script>
     <script src="angular-ui-mask/dist/mask.js"></script>
-    <script src="templates/header.js"></script>
+    
 </body>
 </html>

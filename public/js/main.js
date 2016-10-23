@@ -9,8 +9,8 @@ var app = angular.module('tutorialWebApp', [
   'tutorialWebApp.signin',
   'tutorialWebApp.NPSignUp',
   'tutorialWebApp.profSignUp',
-  'tutorialWebApp.header',
-  'tutorialWebApp.nonprofit']
+  'tutorialWebApp.nonprofit',
+  'tutorialWebApp.profile']
 );
 
 /**
