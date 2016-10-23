@@ -32,7 +32,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         
     };
        
-    function registerUser(email, password, phoneNumber, skills, username){
+    function registerUser(email, password, phoneNumber, skills, username, aboutNP){
         
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .catch(function(error){//this error checking should catch already exists type stuff
@@ -57,7 +57,8 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                                 username: username,
                                 email: email,
                                 phone: phoneNumber,
-                                skills: skills
+                                skills: skills,
+                                about: aboutNP
                             }).catch(function(error){
                                  var errorcode = error.code;
                                  var errorMessage = error.message;
@@ -97,6 +98,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         var username = $scope.user.username;
         var phoneNumber = $scope.phonenumber;
         var skills = [];
+        var aboutNP = $scope.about;
         
         angular.forEach($scope.checkModel.value, function (value, key) {
           if (value) {
@@ -110,7 +112,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         if(!$scope.regForm.$invalid){
             console.log("Valid form Submission");
       
-            var registered = registerUser(txtEmail, txtPassword,phoneNumber, skills, username);
+            var registered = registerUser(txtEmail, txtPassword,phoneNumber, skills, username, aboutNP);
 
             if(registered){
                 console.log("All successful");

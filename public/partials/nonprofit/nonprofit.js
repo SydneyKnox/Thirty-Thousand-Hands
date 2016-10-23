@@ -16,6 +16,8 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
         $scope.email = '';
         $scope.phoneNumber = '';
         $scope.skills = [];
+        $scope.name = '';
+        $scope.description = '';
         
         function getData(){
             var ref = firebase.database().ref("nonprofit/" + $scope.url);
@@ -28,6 +30,8 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
                     $scope.phoneNumber = snapshot.child("phone/").val();
                     $scope.skills = snapshot.child("skills/").val();
                     console.log($scope.skills);
+                    $scope.name = snapshot.child("username/").val();
+                    $scope.description = snapshot.child("about/").val();
                     $scope.$apply();
                     //$window.location.reload();
                 } else{
