@@ -63,7 +63,11 @@ angular.module('tutorialWebApp.profSignUp', ['ngRoute','firebase'])
                             numProfs.once("value")
                               .then(function(snapshot){
                                  var num = snapshot.val();
-                                  
+                                 
+                                firebase.database().ref('profEmails/' + num).set({
+                                    email: email
+                                })
+                            
                                  firebase.database().ref('Professors/' + num).set({
                                     username: username,
                                     email: email,

@@ -9,19 +9,27 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
   });
 }])
 
-.controller('profileCtrl', ['$scope', '$firebaseAuth', '$location', '$rootScope', '$window', 
-    function ($scope, $firebaseAuth, $location, $rootScope, $window){
+.controller('profileCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
+    function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
+    
+    var email = '';
+    
+    if(firebase.auth().currentUser != null){
+        email = firebase.auth().currentUser.email;
+        console.log(email);
         
-        if(firebase.auth().currentUser == null){
-            $location.url('/');
-        } else{
-            //check if user is NP
-            //check if user is Prof
-            //check if user is us????
-            var email == firebase.auth().currentUser.email;
-            console.log(email);
-            
-            
-        }
+        var hash = md5.createHash(email);
         
+        var ref = firebase.database().ref('nonprofit/' + hash);
+        ref.once("value")
+            .then(function(snapshot){
+                console.log(snapshot.val());
+            });
+        
+    } else{
+        //$scope.userSignedIn = true;
+    }
     }]);
+    
+    
+  //make separate list of nums and emails

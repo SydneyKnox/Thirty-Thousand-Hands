@@ -10,8 +10,8 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
 }])
 
 
-.controller('NPSignUpCtrl', ['$scope', '$firebaseAuth', '$location', '$rootScope', '$window', 
-    function ($scope, $firebaseAuth, $location, $rootScope, $window) {
+.controller('NPSignUpCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
+    function ($scope, md5, $firebaseAuth, $location, $rootScope, $window) {
     console.log("NPSignUp Controller reporting for duty.");
     $scope.isCollapsed = false;
     $scope.isCollapsedHorizontal = false;
@@ -43,17 +43,23 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
             })
             .then(function(){
                 console.log("successfully authorized user");
-            
+                
+                //sign in newly authorized user
                 firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function(){
                          console.log("successfully signed in new user");
+                         
+                         //retrieve numNPs
                          var numNP = firebase.database().ref('numNonprofits');
                          numNP.once("value")
                           .then(function(snapshot) {
+                            
                             var num = snapshot.val();
-                            
-                            
-                            firebase.database().ref('nonprofit/' + num).set({
+                            firebase.database().ref('nonprofitEmails/' + num).set({
+                                email: email
+                            })
+                            var hash = md5.createHash(email);
+                            firebase.database().ref('nonprofit/' + hash).set({
                                 username: username,
                                 email: email,
                                 phone: phoneNumber,
