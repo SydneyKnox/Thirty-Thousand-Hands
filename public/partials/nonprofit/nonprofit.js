@@ -9,8 +9,8 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
   });
 }])
 
-.controller('nonprofitCtrl', ['$scope', '$firebaseAuth', '$location', '$rootScope', '$window', 
-    function ($scope, $firebaseAuth, $location, $rootScope, $window){
+.controller('nonprofitCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
+    function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
         
         $scope.url = $location.url().split('/')[2];
         $scope.email = '';
@@ -20,19 +20,25 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
         $scope.description = '';
         
         function getData(){
-            var ref = firebase.database().ref("nonprofit/" + $scope.url);
+            var numRef = firebase.database().ref("nonprofitEmails/" + $scope.url);
             
-            ref.once("value")
+            numRef.once("value")
               .then(function(snapshot){
                 if(snapshot.exists()){
                     $scope.email = snapshot.child("email/").val();
                     console.log($scope.email);
-                    $scope.phoneNumber = snapshot.child("phone/").val();
-                    $scope.skills = snapshot.child("skills/").val();
-                    console.log($scope.skills);
-                    $scope.name = snapshot.child("username/").val();
-                    $scope.description = snapshot.child("about/").val();
-                    $scope.$apply();
+                    
+                    var hash = md5.createHash($scope.email);
+                    
+                    var ref = firebase.database().ref('nonprofit/' + hash);
+                    ref.once("value").then(function(snapshot){
+                        $scope.phoneNumber = snapshot.child('phone/').val();
+                        $scope.skills = snapshot.child('skills/').val();
+                        $scope.name = snapshot.child('username/').val();
+                        $scope.description = snapshot.child('about/').val();
+                        $scope.$apply();
+                    });
+                    
                     //$window.location.reload();
                 } else{
                     console.log("snapshot does not exist");
