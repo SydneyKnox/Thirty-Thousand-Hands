@@ -9,8 +9,8 @@ angular.module('tutorialWebApp.profSignUp', ['ngRoute','firebase'])
   });
 }])
 
-.controller('profSignUpCtrl', ['$scope', '$firebaseAuth', '$location', '$rootScope', '$window', 
-    function ($scope, $firebaseAuth, $location, $rootScope, $window) {
+.controller('profSignUpCtrl', ['$scope', 'md5','$firebaseAuth', '$location', '$rootScope', '$window', 
+    function ($scope,md5, $firebaseAuth, $location, $rootScope, $window) {
     console.log("profSignUp Controller reporting for duty.");
     
     $scope.isCollapsed = false;
@@ -67,8 +67,8 @@ angular.module('tutorialWebApp.profSignUp', ['ngRoute','firebase'])
                                 firebase.database().ref('profEmails/' + num).set({
                                     email: email
                                 })
-                            
-                                 firebase.database().ref('Professors/' + num).set({
+                                var hash = md5.createHash(email);
+                                 firebase.database().ref('Professors/' + hash).set({
                                     username: username,
                                     email: email,
                                     phone: phoneNumber,
