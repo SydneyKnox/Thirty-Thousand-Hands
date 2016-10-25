@@ -32,9 +32,9 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
                 if(snapshot != null){
                     $scope.email = email;
                     $scope.phone = snapshot.child('phone/').val();
-                    console.log(snapshot.child('phone/').val());
+                    console.log($scope.phone);
                     $scope.username = snapshot.child('username/').val();
-                    console.log(snapshot.child('username/').val());
+                    console.log($scope.username);
                     $scope.about = snapshot.child('about/').val();
                     console.log(snapshot.child('about/').val());
                     $scope.skills = snapshot.child('skills/').val();
@@ -43,19 +43,25 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
                     $scope.$apply();
                 }
             });
-        var ref = firebase.database().ref('Professors/' + hash);
-        ref.once("value")
-            .then(function(snapshot){
-                if(snapshot != null){//this is obviously still not null...should be
-                    $scope.email = email;
-                    $scope.phone = snapshot.child('phone/').val();
-                    $scope.username = snapshot.child('username/').val();
-                    $scope.about = snapshot.child('about/').val();
-                    $scope.skills = snapshot.child('skills/').val();
+        
+            var ref = firebase.database().ref('Professors/' + hash +'/email');
+            ref.once("value")
+                .then(function(snapshot){
                     console.log(snapshot.val());
-                    $scope.$apply();
-                }
-            });
+                    if(snapshot.val() != null){
+                    var newRef = firebase.database().ref('Professors/' + hash);
+                    newRef.once("value")
+                        .then(function(snapshot){
+                            $scope.email = email;
+                            $scope.phone = snapshot.child('phone/').val();
+                            $scope.username = snapshot.child('username/').val();
+                            $scope.about = snapshot.child('about/').val();
+                            $scope.skills = snapshot.child('skills/').val();
+                            $scope.$apply();
+                        });
+                    }
+                });
+        
         
     } else{
         //$scope.userSignedIn = true;
