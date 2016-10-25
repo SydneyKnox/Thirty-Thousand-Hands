@@ -11,7 +11,8 @@ var app = angular.module('tutorialWebApp', [
   'tutorialWebApp.NPSignUp',
   'tutorialWebApp.profSignUp',
   'tutorialWebApp.nonprofit',
-  'tutorialWebApp.profile']
+  'tutorialWebApp.profile',
+  'tutorialWebApp.editNeeds']
 );
 
 /**

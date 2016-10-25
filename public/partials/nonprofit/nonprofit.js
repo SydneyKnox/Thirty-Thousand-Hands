@@ -18,6 +18,9 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
         $scope.skills = [];
         $scope.name = '';
         $scope.description = '';
+        $scope.needs = '';
+        
+        $scope.isNonprofit = false;
         
         function getData(){
             var numRef = firebase.database().ref("nonprofitEmails/" + $scope.url);
@@ -36,29 +39,35 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
                         $scope.skills = snapshot.child('skills/').val();
                         $scope.name = snapshot.child('username/').val();
                         $scope.description = snapshot.child('about/').val();
+                        $scope.needs = snapshot.child('needs/').val();
                         $scope.$apply();
+                        
+                        isUserNonprofit();
                     });
                     
                     //$window.location.reload();
                 } else{
                     console.log("snapshot does not exist");
                 }
-              })
-              .then(function(){
-                //checkPhase();
               });
         };
         
-        function checkPhase(){
-            if ($scope.$$phase != '$apply' && $scope.$$phase != '$digest' &&(!$scope.$root || ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest'))) {
-                //$scope.$apply();
-                $window.location.reload();
-            }            
+        function isUserNonprofit(){
+            var currUser = firebase.auth().currentUser;
+            console.log(currUser);
+            if(currUser != null){
+                var currEmail = currUser.email;
+                //user is signed in
+                if(currEmail.toLowerCase() === $scope.email.toLowerCase()){
+                    console.log(currEmail.toLowerCase());
+                    console.log($scope.email.toLowerCase());
+                    $scope.isNonprofit = true;
+                    console.log($scope.isNonprofit);
+                    $scope.$apply();
+                }
+            }
         }
-
-        
-        
-        
+       
         getData();
-        
+        //isUserNonprofit();
     }]);
