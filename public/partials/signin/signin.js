@@ -1,6 +1,7 @@
 var signin = angular.module('tutorialWebApp.signin', []);
 
-signin.controller('SignInCtrl', ['$scope', '$firebaseAuth', function ($scope, $firebaseAuth) {
+signin.controller('SignInCtrl', ['$scope', '$firebaseAuth','$route','$location', '$rootScope', '$window', 
+    function ($scope, $firebaseAuth, $route, $location, $rootScope, $window) {
     console.log("SignIn Controller reporting for duty.");
  
     if(firebase.auth().currentUser == null){
@@ -25,6 +26,7 @@ signin.controller('SignInCtrl', ['$scope', '$firebaseAuth', function ($scope, $f
     $scope.signOut = function(){
         firebase.auth().signOut();
         console.log("Signout button clicked");
+        $route.reload();
        // $scope.$apply();
     };
     
@@ -74,6 +76,7 @@ signin.controller('SignInCtrl', ['$scope', '$firebaseAuth', function ($scope, $f
             }
         }
         //$scope.$apply();
+        $route.reload();
     };
 }]);
 

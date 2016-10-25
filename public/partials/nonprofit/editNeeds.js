@@ -87,7 +87,7 @@ angular.module('tutorialWebApp.editNeeds', ['ngRoute','firebase'])
             firebase.database().ref('nonprofit/' + hash + '/skills/').set(skills);
             firebase.database().ref('nonprofit/' + hash + '/needs/').set(needs);
             
-        $location.url('/');
+        $location.url('/nonprofit/' + $scope.url);
     };
 
     
