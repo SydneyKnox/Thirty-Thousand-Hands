@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
+angular.module('tutorialWebApp.profProfile', ['ngRoute','firebase'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/profile/:profile', {
-    templateUrl: 'partials/profile/profile.html',
-    controller: 'profileCtrl'
+  $routeProvider.when('/profProfile/:profProfile', {
+    templateUrl: 'partials/profile/profProfile.html',
+    controller: 'profProfileCtrl'
   });
 }])
 
-.controller('profileCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
+.controller('profProfileCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
     function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
     
     var email = '';
@@ -23,7 +23,6 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
     if(firebase.auth().currentUser != null){
         email = firebase.auth().currentUser.email;
         console.log(email);
-        
         
         var hash = md5.createHash(email);
         

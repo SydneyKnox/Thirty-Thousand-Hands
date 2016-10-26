@@ -71,7 +71,7 @@
                 </li>
             </ul>
             <ul class= "nav navbar-nav navbar-right">
-                <li><a ng-show="userSignedIn" href="#/profile">My Profile</a>
+                <li><a ng-show="userSignedIn" ng-click="goToProfile();">My Profile</a>
                 </li>
                 <li><a ng-show="!userSignedIn" href="#/signup">Sign Up</a>
                 </li>
@@ -151,6 +151,7 @@
     <script src="partials/nonprofit/nonprofit.js"></script>
     <script src="partials/profile/profile.js"></script>
     <script src="partials/nonprofit/editNeeds.js"></script>
+    <script src="partials/profile/profProfile.js"></script>
     <script src="angular-ui-mask/dist/mask.js"></script>
     
 </body>
