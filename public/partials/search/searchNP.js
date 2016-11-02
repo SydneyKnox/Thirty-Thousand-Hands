@@ -24,7 +24,8 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
         var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
         $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology, 
                              "Environment": Environment, "Business": Business, "Health": Health};
-
+        $scope.filteredPage = false;
+        
         $scope.checkModel = {
         
         };
@@ -36,47 +37,54 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
         $scope.showCategories = {
             
         }
+        
+        $scope.checkShow = function(np){
+            //console.log(np.skills);
+            np.skills.forEach(function(skill){
+                if($scope.showCategories[skill] == true){
+                    console.log("include np");
+                    return true;
+                }else{
+                    return false;
+                }
+            })
+            
+        }
 
         $scope.filterResults = function(category){
+            if($scope.filteredPage == false){
+                $scope.filteredPage = true;
+                for(var key in $scope.showCategories){ //list is the one that is email:object
+                    $scope.showCategories[key] = false;//showCategories is the one that is email:T/F
+                }
+               // $scope.showCategories[category] = true;
+            }
             console.log(category.subcategory);
-            $scope.showCategories[category.subcategory] = false;
-            console.log($scope.showCategories);
+            for(var key in $scope.list){
+                if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
+                    $scope.showCategories[$scope.list[key].email] = true;
+                    console.log($scope.list[key].email);
+                }
+            }
+            $scope.showCategories[category.subcategory] = true;
+            //console.log($scope.showCategories);
             //$scope.$apply();
+            
         }
         var ref = firebase.database().ref('nonprofit/');
         
         ref.once("value").then(function(snapshot){
-            //$scope.list = snapshot.val();
-            
             snapshot.forEach(function(np){
-               // console.log(np);
-               // console.log(np.val());
-               // np.val()["show"] = true;
-                //console.log(np.val()["show"]);
                 $scope.list[np.val().email] = np.val();
-                //console.log($scope.list);
+               // console.log(np.val());
+               // console.log($scope.list[np.val()]);
             })
             
-            for(var key in $scope.categories){
-                //console.log(key);
-                //console.log($scope.categories[key]);
-                for(var categ in $scope.categories[key]){
-                   // console.log(categ);
-                   //console.log($scope.categories[key][categ]);
-                    $scope.showCategories[$scope.categories[key][categ]] = true;
-                }
+            for(var key in $scope.list){
+                $scope.showCategories[key] = true;
             }
             
-            console.log($scope.showCategories);
-            // var items = snapshot.val();
-            // console.log(items);
-            // var size = Object.keys(items).length;            
-            // console.log(size);
-            // for(var i=0;i<size;i++){
-                // items[i].show = true;
-                // console.log(items(i));
-            // }
-            
+            //console.log($scope.showCategories);
             $scope.$apply();
         })
     }]);
