@@ -14,8 +14,9 @@
                         <label><input type="checkbox" 
                                       name="{{subcategory}}"  
                                       value="{{subcategory}}"
+                                      id="{{subcategory}}"
                                       ng-model = "checkModel.value[subcategory]"
-                                      ng-click = "filterResults()";>{{subcategory}}</label><br>
+                                      ng-click = "filterResults(this)">{{subcategory}}</label><br>
                     </div>
                 </div>
             </div>

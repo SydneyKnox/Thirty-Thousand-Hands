@@ -28,14 +28,55 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
         $scope.checkModel = {
         
         };
+        
+        $scope.list = {
+            
+        }
+        
+        $scope.showCategories = {
+            
+        }
 
-        function filterResults(category){
-            console.log(category);
+        $scope.filterResults = function(category){
+            console.log(category.subcategory);
+            $scope.showCategories[category.subcategory] = false;
+            console.log($scope.showCategories);
+            //$scope.$apply();
         }
         var ref = firebase.database().ref('nonprofit/');
         
         ref.once("value").then(function(snapshot){
-            $scope.list = snapshot.val();
+            //$scope.list = snapshot.val();
+            
+            snapshot.forEach(function(np){
+               // console.log(np);
+               // console.log(np.val());
+               // np.val()["show"] = true;
+                //console.log(np.val()["show"]);
+                $scope.list[np.val().email] = np.val();
+                //console.log($scope.list);
+            })
+            
+            for(var key in $scope.categories){
+                //console.log(key);
+                //console.log($scope.categories[key]);
+                for(var categ in $scope.categories[key]){
+                   // console.log(categ);
+                   //console.log($scope.categories[key][categ]);
+                    $scope.showCategories[$scope.categories[key][categ]] = true;
+                }
+            }
+            
+            console.log($scope.showCategories);
+            // var items = snapshot.val();
+            // console.log(items);
+            // var size = Object.keys(items).length;            
+            // console.log(size);
+            // for(var i=0;i<size;i++){
+                // items[i].show = true;
+                // console.log(items(i));
+            // }
+            
             $scope.$apply();
         })
     }]);
