@@ -52,21 +52,58 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
         }
 
         $scope.filterResults = function(category){
+            //console.log(category);
             if($scope.filteredPage == false){
-                $scope.filteredPage = true;
-                for(var key in $scope.showCategories){ //list is the one that is email:object
-                    $scope.showCategories[key] = false;//showCategories is the one that is email:T/F
+                $scope.filteredPage = true;//list is the one that is email:object
+                //set all the tags back to false
+                for(var key in $scope.showCategories){ //showCategories is the one that is email:T/F
+                    $scope.showCategories[key] = false;
                 }
-               // $scope.showCategories[category] = true;
-            }
-            console.log(category.subcategory);
-            for(var key in $scope.list){
-                if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
-                    $scope.showCategories[$scope.list[key].email] = true;
-                    console.log($scope.list[key].email);
+                //go through each np, check if it's skills include the checked tag 
+                //if yes, set that np to true in the email list. 
+                for(var key in $scope.list){
+                    if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
+                        $scope.showCategories[$scope.list[key].email] = true;
+                        console.log("adding: " + $scope.list[key].email);
+                    }
+                }
+                //$scope.showCategories[category] = true;//so that the one you just checked
+            }else{
+                //console.log(category.subcategory);
+                //if the box is (now?) checked     
+                if(document.getElementById(category.subcategory).checked){
+                    console.log(category.subcategory + "checked");
+                    //for each email in the np object list 
+                    for(var key in $scope.list){
+                        //if this np includes the checked tag
+                        if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
+                            //then make that np email true
+                            $scope.showCategories[$scope.list[key].email] = true;
+                            console.log($scope.list[key].email);
+                        }
+                    }
+                    //$scope.showCategories[category.subcategory] = true;
+                }else{
+                    //box is (now?) unchecked
+                    //for each email in the email/np object list
+                    for(var key in $scope.list){
+                        //if that np's skills includes the unchecked box 
+                        if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
+                            $scope.removeNP = true;
+                            $scope.list[key].skills.forEach(function(skill){
+                                if(document.getElementById(skill).checked){
+                                    $scope.removeNP = false;
+                                }
+                            });
+                            if($scope.removeNP){
+                                $scope.showCategories[$scope.list[key].email] = false;
+                                console.log($scope.list[key].email);
+                            }
+                        }
+                    }
+                    //$scope.showCategories[category.subcategory] = true;
                 }
             }
-            $scope.showCategories[category.subcategory] = true;
             //console.log($scope.showCategories);
             //$scope.$apply();
             
