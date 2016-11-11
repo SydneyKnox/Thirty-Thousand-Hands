@@ -36,6 +36,47 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
         isFirstDisabled: false
       };
     
+    $scope.checkModel = {
+        
+    };
+    
+    $scope.project = {
+        
+    };
+    
+    $scope.createProject = function(){
+        var name = $scope.project.Name;
+        var description = $scope.project.Description;
+        var skills = [];
+        $scope.numProjects;
+        
+        for(var box in $scope.checkModel.value){
+            if($scope.checkModel.value[box] === true){
+                skills.push(box);
+            }
+        }
+        console.log(skills);
+        //figure out why the fuck idiot proofing isn't working here
+        var ref = firebase.database().ref('numProjects/');
+        ref.once("value").then(function(snapshot){
+            $scope.numProjects = snapshot.val();
+            console.log($scope.numProjects);
+            
+            var hash = md5.createHash($scope.email);
+            
+            var newProj = firebase.database().ref('projects/' + $scope.numProjects);
+            newProj.set({
+                nonprofit: hash,
+                name: name,
+                description: description,
+                skills: skills
+            });
+            
+            firebase.database().ref('numProjects/').set($scope.numProjects + 1);
+        });
+    }
+    
+    
     if(firebase.auth().currentUser != null){
         email = firebase.auth().currentUser.email;
         console.log(email);

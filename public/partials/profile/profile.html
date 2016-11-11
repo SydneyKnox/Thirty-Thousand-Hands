@@ -13,11 +13,16 @@
         <form>
           <div class="form-group">
             <label for="ProjectName">Project Name</label>
-            <input type="name" class="form-control" id="ProjectName" placeholder="Project Name">
+            <input type="name" class="form-control" id="ProjectName" placeholder="Project Name" ng-model="project.Name">
           </div>
           <div class = "form-group">
             <label for= "Description">Project Description</label>
-            <textarea id = "Description" placeholder = "Project Description" class="form-control" rows="3" ></textarea>
+            <textarea id = "Description" placeholder = "Project Description" class="form-control" rows="3" ng-model= "project.Description"></textarea>
+          </div>
+          <div>
+            {{checkModel}}
+            {{projectName}}
+            {{projectDescription}}
           </div>
           <div class = "form-group">
               <label for="tags">Choose categories applicable to your project:</label>
@@ -37,7 +42,7 @@
                 </div>
               </div>
           </div>
-          <button type="submit" class="btn btn-default" ng-click = "createProject();">Submit</button>
+          <button type="submit" class="btn btn-default" ng-click = "createProject();" ng-disable = "projectName || projectDescription">Submit</button>
         </form>
     </div>
 </uib-accordion>
