@@ -18,10 +18,9 @@
         </div>
     </div>
     <div id="page content" class="main">
-        <div class="well well-lg" ng-repeat="(key,value) in list" ng-show="showCategories[value.email]">
+        <div class="well well-lg" ng-repeat="(key,value) in list" ng-show="showCategories[value.name]">
+            <h3>{{value.name}}</h3>
             
-            <h3>{{value.username}}</h3>
-            <p>{{value.about}}</p>
         </div>
     </div>
 </div>

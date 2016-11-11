@@ -19,11 +19,6 @@
             <label for= "Description">Project Description</label>
             <textarea id = "Description" placeholder = "Project Description" class="form-control" rows="3" ng-model= "project.Description"></textarea>
           </div>
-          <div>
-            {{checkModel}}
-            {{projectName}}
-            {{projectDescription}}
-          </div>
           <div class = "form-group">
               <label for="tags">Choose categories applicable to your project:</label>
               <div id="tags" ng-repeat="(key, value) in categories">

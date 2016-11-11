@@ -31,9 +31,7 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
                          "Environment": Environment, "Business": Business, "Health": Health};
                              
       $scope.status = {
-        isCustomHeaderOpen: false,
-        isFirstOpen: true,
-        isFirstDisabled: false
+        open: false
       };
     
     $scope.checkModel = {
@@ -74,6 +72,8 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
             
             firebase.database().ref('numProjects/').set($scope.numProjects + 1);
         });
+        
+        $scope.status.open = false;
     }
     
     
