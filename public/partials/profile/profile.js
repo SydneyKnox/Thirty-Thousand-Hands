@@ -19,6 +19,22 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
     $scope.about = '';
     $scope.skills = [];
     $scope.url = $location.url().split('/')[2];
+    $scope.oneAtATime = true;
+    var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
+    var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
+    var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
+    var Technology = ["Engineering", "Computer Science", "Analytics"]; 
+    var Environment = ["Sustainability", "Natural Sciences", "Urban and Regional Planning", "Gardening"];
+    var Business = ["Accounting", "Marketing", "Entrepreneurship", "Statistics", "Economy", "Fundraising and Philanthropy"];
+    var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
+    $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology, 
+                         "Environment": Environment, "Business": Business, "Health": Health};
+                             
+      $scope.status = {
+        isCustomHeaderOpen: false,
+        isFirstOpen: true,
+        isFirstDisabled: false
+      };
     
     if(firebase.auth().currentUser != null){
         email = firebase.auth().currentUser.email;

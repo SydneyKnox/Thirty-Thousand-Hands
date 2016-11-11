@@ -24,7 +24,7 @@ body {
 }
 
 .home-banner{
-    background-color: #00B2B9;
+  
 }
 
 .home-banner .img-responsive{
@@ -47,6 +47,15 @@ a{
 
 a:hover{
     color:#3E3C54;
+}
+
+.team-image{
+    background-image: url("../imgs/TTHteam.jpg");
+    background-size: cover;
+    padding: 0px;
+    margin-top: -20px;
+    height:500px; 
+    width:100%;
 }
 
 .sidenav {
@@ -74,4 +83,18 @@ a:hover{
 .main {
     margin-left:20%;
     padding: 20px;
+}
+
+.search-unexpanded {
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";
+    float: right;
+    color: grey;
+}
+
+.search-expanded{
+    font-family: 'Glyphicons Halflings';
+    content: "\e080";
+    float: right;
+    color: grey;
 }

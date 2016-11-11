@@ -46,7 +46,7 @@
     </script>
    
 </head>
-<body ng-app="tutorialWebApp" style="background-color:#00B2B9;">
+<body ng-app="tutorialWebApp" style="background-color:#FFF;">
 
 <div ng-controller = "SignInCtrl">
     <!-- Our Website Content Goes Here -->
@@ -71,6 +71,8 @@
                 </li>
             </ul>
             <ul class= "nav navbar-nav navbar-right">
+                <li><a href="#/search">Search Non-Profits</a>
+                </li>
                 <li><a ng-show="userSignedIn" ng-click="goToProfile();">My Profile</a>
                 </li>
                 <li><a ng-show="!userSignedIn" href="#/signup">Sign Up</a>

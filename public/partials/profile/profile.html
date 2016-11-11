@@ -1,7 +1,43 @@
 <h1>nonprofit Profile</h1>
-<h1>{{about}}</h1>
-<h1>{{email}}</h1>
-<h1>{{phone}}</h1>
-<h1>{{skills}}</h1>
-<h1>{{username}}</h1>
-<a class="btn btn-sm" href="#/editNeeds/{{url}}">edit needs {{url}}</a>
+<div class = "well well-lg text-center">
+   <h3><a href="#/editNeeds/{{url}}">edit needs {{url}}</a></h3>
+</div>
+<div class = "well well-sm text-center">
+    <h3>ToDo//Submit Profile Picture Box</h3>
+</div>
+<uib-accordion close-others="oneAtATime">
+    <div uib-accordion-group class="panel-default" is-open="status.open">
+      <uib-accordion-heading>
+        <h3 class = "text-center"><a href = "#/">Create a Project</a></h3>
+      </uib-accordion-heading>
+        <form>
+          <div class="form-group">
+            <label for="ProjectName">Project Name</label>
+            <input type="name" class="form-control" id="ProjectName" placeholder="Project Name">
+          </div>
+          <div class = "form-group">
+            <label for= "Description">Project Description</label>
+            <textarea id = "Description" placeholder = "Project Description" class="form-control" rows="3" ></textarea>
+          </div>
+          <div class = "form-group">
+              <label for="tags">Choose categories applicable to your project:</label>
+              <div id="tags" ng-repeat="(key, value) in categories">
+                <h3 class= "text-center"><a ng-click="clicked = !clicked">{{key}}</a></h3>
+                <div uib-collapse = "!clicked">
+                    <div class= "well well-lg">
+                        <div class="checkbox-inline" ng-repeat="subcategory in value">
+                            <label><input type="checkbox" 
+                                          name="{{subcategory}}"  
+                                          value="{{subcategory}}"
+                                          id="{{subcategory}}"
+                                          ng-model = "checkModel.value[subcategory]"
+                                          ng-click = "filterResults(this)">{{subcategory}}</label><br>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+          <button type="submit" class="btn btn-default" ng-click = "createProject();">Submit</button>
+        </form>
+    </div>
+</uib-accordion>

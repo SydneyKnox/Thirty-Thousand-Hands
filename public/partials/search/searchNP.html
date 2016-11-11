@@ -7,7 +7,7 @@
 <div>
     <div id="mySidenav" class="sidenav">
         <div ng-repeat="(key, value) in categories">
-            <a ng-click="clicked = !clicked">{{key}}</a>
+            <h3><a ng-click="clicked = !clicked"><span class="glyphicon glyphicon-chevron-right"></span>{{key}}</a></h3>
             <div uib-collapse = "!clicked">
                 <div class= "well well-lg">
                     <div ng-repeat="subcategory in value">
