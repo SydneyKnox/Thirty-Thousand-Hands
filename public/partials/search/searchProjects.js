@@ -15,6 +15,7 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
         $scope.isCollapsed = false;
         $scope.isCollapsedHorizontal = false;
         $scope.clicked = false;
+        $scope.ifProf = false;
         var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
         var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
         var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
@@ -109,20 +110,64 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             
         }
         
-        var ref = firebase.database().ref('projects/');
-        
-        ref.once("value").then(function(snapshot){
-            snapshot.forEach(function(project){
-                $scope.list[project.val().name] = project.val();
-                console.log(project.val());
-               // console.log($scope.list[np.val()]);
-            })
-            
-            for(var key in $scope.list){
-                $scope.showCategories[key] = true;
+        var checkIfProf = function(){
+            console.log(firebase.auth().currentUser);
+            if(firebase.auth().currentUser != null){
+                console.log("someone logged in");
+                
+                var hash = md5.createHash(firebase.auth().currentUser.email);
+                var ref = firebase.database().ref('Professors/'+hash);
+                ref.once("value").then(function(snapshot){
+                    if(snapshot.exists()){
+                        $scope.isProf = true;
+                        console.log("isProf");
+                    }else{
+                        $scope.isProf = false;
+                        console.log("isn'tProf");
+                    }
+                });
+                $scope.$apply();
             }
+        }
+        
+        var getData = function(){
+            var ref = firebase.database().ref('projects/');
             
-            console.log($scope.showCategories);
-            $scope.$apply();
-        })
+            ref.once("value").then(function(snapshot){
+                snapshot.forEach(function(project){
+                    $scope.list[project.val().name] = project.val();
+                    //console.log(project.val());
+                   // console.log($scope.list[np.val()]);
+                })
+                
+                for(var key in $scope.list){
+                    $scope.showCategories[key] = true;
+                }
+                
+                if(firebase.auth().currentUser != null){
+                    console.log("someone logged in");
+                    
+                    var hash = md5.createHash(firebase.auth().currentUser.email);
+                    var ref = firebase.database().ref('Professors/'+hash);
+                    ref.once("value").then(function(snapshot){
+                        if(snapshot.exists()){
+                            $scope.isProf = true;
+                            console.log("isProf");
+                            $scope.$apply();
+                        }else{
+                            $scope.isProf = false;
+                            console.log("isn'tProf");
+                            $scope.$apply();
+                        }
+                    });
+                    
+                }
+                
+                console.log($scope.showCategories);
+                $scope.$apply();
+            });
+        }
+        
+        //checkIfProf();
+        getData();
 }]);

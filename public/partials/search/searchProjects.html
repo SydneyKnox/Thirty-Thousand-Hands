@@ -18,9 +18,9 @@
         </div>
     </div>
     <div id="page content" class="main">
-        <div class="well well-lg" ng-repeat="(key,value) in list" ng-show="showCategories[value.name]">
-            <h3>{{value.name}}</h3>
-            
+        <div class="well well-lg text-right" ng-repeat="(key,value) in list" ng-show="showCategories[value.name]">
+            <h3 class="pull-left">{{value.name}}</h3>
+            <button type="button" class = "btn btn-md" style="pull-right;" ng-show="isProf">I'm Interested</button>
         </div>
     </div>
 </div>
