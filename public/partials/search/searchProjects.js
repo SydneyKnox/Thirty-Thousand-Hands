@@ -39,6 +39,21 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             
         }
         
+        $scope.submitInterest = function(value){
+            console.log(value.nonprofit);
+            var ref = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/');
+            ref.once("value").then(function(snapshot){
+               var numNotes = snapshot.numChildren();
+               var notifHTML = "<h1>Test Notification</h1>"
+               var key = firebase.database().ref('nonprofit/'+value.nonprofit).child('notifications').push().key;
+               var updates = {};
+               updates['nonprofit/' + value.nonprofit + '/notifications/' + key] = notifHTML;
+               firebase.database().ref().update(updates);
+               //var setRef = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/' + numNotes);
+               //setRef.set(notifHTML);
+            });
+        }
+        
         $scope.checkShow = function(np){
             //console.log(np.skills);
             np.skills.forEach(function(skill){

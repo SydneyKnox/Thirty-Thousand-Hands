@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
+angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/profile/:profile', {
@@ -30,15 +30,19 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
     $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology, 
                          "Environment": Environment, "Business": Business, "Health": Health};
                              
-      $scope.status = {
-        open: false
-      };
+    $scope.status = {
+    open: false
+    };
     
     $scope.checkModel = {
         
     };
     
     $scope.project = {
+        
+    };
+    
+    $scope.notifications = {
         
     };
     
@@ -99,6 +103,8 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
                     $scope.skills = snapshot.child('skills/').val();
                     console.log(snapshot.child('skills/').val());
                     //console.log(snapshot.val());
+                    $scope.notifications = snapshot.child('notifications/').val();
+                    console.log(snapshot.child('notifications/').val());
                     $scope.$apply();
                 }
             });
@@ -116,6 +122,8 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase'])
                             $scope.username = snapshot.child('username/').val();
                             $scope.about = snapshot.child('about/').val();
                             $scope.skills = snapshot.child('skills/').val();
+                            $scope.notifications = snapshot.child('notifications/').val();
+                    console.log(snapshot.child('notifications/').val());
                             $scope.$apply();
                         });
                     }
