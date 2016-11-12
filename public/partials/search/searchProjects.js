@@ -16,6 +16,7 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
         $scope.isCollapsedHorizontal = false;
         $scope.clicked = false;
         $scope.ifProf = false;
+        $scope.ProfName = '';
         var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
         var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
         var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
@@ -44,7 +45,8 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             var ref = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/');
             ref.once("value").then(function(snapshot){
                var numNotes = snapshot.numChildren();
-               var notifHTML = "<h1>Test Notification</h1>"
+               var buttonHTML = '<button type="button" ng-click="acceptInterest();">Accept</button>'
+               var notifHTML = '<p>' + $scope.ProfName + ' is interested in your project ' + value.name + '!</p>' + buttonHTML;
                var key = firebase.database().ref('nonprofit/'+value.nonprofit).child('notifications').push().key;
                var updates = {};
                updates['nonprofit/' + value.nonprofit + '/notifications/' + key] = notifHTML;
@@ -125,25 +127,6 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             
         }
         
-        var checkIfProf = function(){
-            console.log(firebase.auth().currentUser);
-            if(firebase.auth().currentUser != null){
-                console.log("someone logged in");
-                
-                var hash = md5.createHash(firebase.auth().currentUser.email);
-                var ref = firebase.database().ref('Professors/'+hash);
-                ref.once("value").then(function(snapshot){
-                    if(snapshot.exists()){
-                        $scope.isProf = true;
-                        console.log("isProf");
-                    }else{
-                        $scope.isProf = false;
-                        console.log("isn'tProf");
-                    }
-                });
-                $scope.$apply();
-            }
-        }
         
         var getData = function(){
             var ref = firebase.database().ref('projects/');
@@ -167,6 +150,8 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                     ref.once("value").then(function(snapshot){
                         if(snapshot.exists()){
                             $scope.isProf = true;
+                            $scope.ProfName = snapshot.child('username/').val();
+                            console.log($scope.ProfName);
                             console.log("isProf");
                             $scope.$apply();
                         }else{
