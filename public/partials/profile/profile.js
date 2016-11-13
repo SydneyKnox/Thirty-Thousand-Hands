@@ -9,6 +9,8 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
   });
 }])
 
+
+
 .controller('profileCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
     function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
     
@@ -46,9 +48,15 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
         
     };
     
-    $scope.acceptInterest = function(emailHash){//this isn't in the right scope
+    $scope.acceptInterest = function(emailHash, key){
         console.log("acceptInterest");
         console.log(emailHash);
+        console.log(key);
+        
+        var updates = {};
+        updates['projects/' + key + '/status/'] = 'IP';
+        updates['projects/' + key + '/professor/'] = emailHash;
+        firebase.database().ref().update(updates);
     }
     
     $scope.createProject = function(){
@@ -76,7 +84,8 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
                 nonprofit: hash,
                 name: name,
                 description: description,
-                skills: skills
+                skills: skills,
+                status: 'open'
             });
             
             firebase.database().ref('numProjects/').set($scope.numProjects + 1);
@@ -138,7 +147,8 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
     } else{
         //$scope.userSignedIn = true;
     }
-    }]);
+    }])
+    
     
     
   //make separate list of nums and emails
