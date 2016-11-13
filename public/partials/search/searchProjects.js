@@ -11,8 +11,8 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
 
 .controller('ModalDemoCtrl', function($uibModal, $log, $document){
     var $ctrl = this;
-    $ctrl.items = ['item1','item2'];
-    $ctrl.open = function(){
+    $ctrl.key;
+    $ctrl.open = function(key,value, profHash){
         var modalInstance = $uibModal.open({
             animation: true,
             ariaDescribedBy: 'modal-body',
@@ -20,28 +20,56 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             controller: 'ModalInstanceCtrl',
             controllerAs: '$ctrl',
             resolve: {
-                items: function(){
-                    return $ctrl.items;
+                key: function(){
+                    return key;
+                },
+                value: function(){
+                    return value;
+                },
+                profHash: function(){
+                    return profHash;
                 }
             }
         });
         
-        modalInstance.result.then(function(selectedItem){
-            $ctrl.selected = selectedItem;
-        });
+        
     };
     
 })
 
-.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
+.controller('ModalInstanceCtrl', function ($uibModalInstance,key, value, profHash) {
   var $ctrl = this;
-  $ctrl.items = items;
-  $ctrl.selected = {
-    item: $ctrl.items[0]
-  };
+  
+  $ctrl.key = key;
+  $ctrl.profHash = profHash;
+  $ctrl.value = value;
 
   $ctrl.ok = function () {
-    $uibModalInstance.close($ctrl.selected.item);
+    var buttonthing = document.getElementById(value.name);
+    console.log(buttonthing);
+    buttonthing.disabled = true;
+    buttonthing.value = "Awaiting Non-profit Response";
+    console.log(buttonthing);
+    var ref = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/');
+    ref.once("value").then(function(snapshot){
+       var numNotes = snapshot.numChildren();
+       var buttonHTML = '<p style = "pull-right;"><a ng-click="acceptInterest();">Accept</a></p>'
+       var notifHTML = '<p>Someone is interested in your project ' + value.name + '!</p>' + buttonHTML;
+       var key = firebase.database().ref('nonprofit/'+value.nonprofit).child('notifications').push().key;
+       var updates = {};
+       updates['nonprofit/' + value.nonprofit + '/notifications/' + key] = notifHTML;
+       firebase.database().ref().update(updates);
+       //var setRef = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/' + numNotes);
+       //setRef.set(notifHTML);
+    });
+    var profRef = firebase.database().ref('Professors/' + $ctrl.profHash);
+    profRef.once("value").then(function(snapshot){
+        //var key = firebase.database().ref('Professors/' + $scope.profHash).child('interests').push().key;
+        var updates = {};
+        updates['Professors/'+$ctrl.profHash+'/interests/' + key] = true;
+        firebase.database().ref().update(updates);
+    });
+    $uibModalInstance.close();
   };
 
   $ctrl.cancel = function () {
@@ -81,31 +109,25 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             
         }
         
-        $scope.submitInterest = function(index, value){
+        // $scope.submitInterest = function(index, value){
             
-            var buttonthing = document.getElementById(value.name);
-            console.log(buttonthing);
-            buttonthing.disabled = true;
-            var ref = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/');
-            ref.once("value").then(function(snapshot){
-               var numNotes = snapshot.numChildren();
-               var buttonHTML = '<p style = "pull-right;"><a ng-click="acceptInterest();">Accept</a></p>'
-               var notifHTML = '<p>' + $scope.ProfName + ' is interested in your project ' + value.name + '!</p>' + buttonHTML;
-               var key = firebase.database().ref('nonprofit/'+value.nonprofit).child('notifications').push().key;
-               var updates = {};
-               updates['nonprofit/' + value.nonprofit + '/notifications/' + key] = notifHTML;
-               firebase.database().ref().update(updates);
+            // var buttonthing = document.getElementById(value.name);
+            // console.log(buttonthing);
+            // buttonthing.disabled = true;
+            // var ref = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/');
+            // ref.once("value").then(function(snapshot){
+               // var numNotes = snapshot.numChildren();
+               // var buttonHTML = '<p style = "pull-right;"><a ng-click="acceptInterest();">Accept</a></p>'
+               // var notifHTML = '<p>' + $scope.ProfName + ' is interested in your project ' + value.name + '!</p>' + buttonHTML;
+               // var key = firebase.database().ref('nonprofit/'+value.nonprofit).child('notifications').push().key;
+               // var updates = {};
+               // updates['nonprofit/' + value.nonprofit + '/notifications/' + key] = notifHTML;
+               // firebase.database().ref().update(updates);
                //var setRef = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/' + numNotes);
                //setRef.set(notifHTML);
-            });
-            var profRef = firebase.database().ref('Professors/' + $scope.profHash);
-            profRef.once("value").then(function(snapshot){
-                //var key = firebase.database().ref('Professors/' + $scope.profHash).child('interests').push().key;
-                var updates = {};
-                updates['Professors/'+$scope.profHash+'/interests/' + index] = true;
-                firebase.database().ref().update(updates);
-            });
-        }
+            // });
+            
+        // }
         
         
         
