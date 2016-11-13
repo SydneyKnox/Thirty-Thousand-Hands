@@ -18,9 +18,32 @@
         </div>
     </div>
     <div id="page content" class="main">
-        <div class="well well-lg text-right" ng-repeat="(key,value) in list" ng-show="showCategories[value.name]">
+        <div class="well well-lg text-right" ng-repeat="(key,value) in list" ng-show="showCategories[key]">
             <h3 class="pull-left">{{value.name}}</h3>
-            <button type="button" class = "btn btn-md" style="pull-right;" data-toggle="modal" data-target="#interestModal" ng-show="isProf">I'm Interested</button>
+            <button type="button" id = "{{value.name}}" class = "btn btn-md" style="pull-right;" data-toggle="modal" data-target="#interestModal" ng-show="isProf && !interests[key]">I'm Interested</button>
+            <button type="button" id = "{{key}}" class = "btn btn-md" style="pull-right;" ng-show="interests[key] && isProf" ng-disabled="true">Awaiting Non-profit Response</button>
+            <div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
+                <script type="text/ng-template" id="myModalContent.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <ul>
+                            <li ng-repeat="item in $ctrl.items">
+                                <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
+                            </li>
+                        </ul>
+                        Selected: <b>{{ $ctrl.selected.item }}</b>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                    </div>
+                </script>
+                <button type="button" class="btn btn-default" ng-click="$ctrl.open()">Open</button>
+                <div ng-show="$ctrl.selected">Selection from a modal: {{ $ctrl.selected }}</div>
+                
+            </div>
             <div>
                 <div class="modal fade" id="interestModal" role="dialog">
                 <div class="modal-dialog">
@@ -32,10 +55,11 @@
                     </div>
                     <div class="modal-body">
                       <h1>Add this project?</h1>
+                      <p>{{value}}</p>
                       <h4>Adding this project will notify this nonprofit of your interest</h4>
                     </div>
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-default btn default pull-left" data-dismiss="modal" ng-click="submitInterest(value);">Yes</button>
+                      <button type="submit" class="btn btn-default btn default pull-left" data-dismiss="modal" ng-click="submitInterest(key, value);">{{key}}</button>
                       <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal">Cancel</button>
                     </div>
                   </div>

@@ -9,6 +9,46 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
   });
 }])
 
+.controller('ModalDemoCtrl', function($uibModal, $log, $document){
+    var $ctrl = this;
+    $ctrl.items = ['item1','item2'];
+    $ctrl.open = function(){
+        var modalInstance = $uibModal.open({
+            animation: true,
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            controllerAs: '$ctrl',
+            resolve: {
+                items: function(){
+                    return $ctrl.items;
+                }
+            }
+        });
+        
+        modalInstance.result.then(function(selectedItem){
+            $ctrl.selected = selectedItem;
+        });
+    };
+    
+})
+
+.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
+  var $ctrl = this;
+  $ctrl.items = items;
+  $ctrl.selected = {
+    item: $ctrl.items[0]
+  };
+
+  $ctrl.ok = function () {
+    $uibModalInstance.close($ctrl.selected.item);
+  };
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+})
+
 .controller('searchProjectsCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
     function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
         
@@ -17,6 +57,7 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
         $scope.clicked = false;
         $scope.ifProf = false;
         $scope.ProfName = '';
+        $scope.profHash = '';
         var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
         var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
         var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
@@ -40,12 +81,15 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             
         }
         
-        $scope.submitInterest = function(value){
-            console.log(value.nonprofit);
+        $scope.submitInterest = function(index, value){
+            
+            var buttonthing = document.getElementById(value.name);
+            console.log(buttonthing);
+            buttonthing.disabled = true;
             var ref = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/');
             ref.once("value").then(function(snapshot){
                var numNotes = snapshot.numChildren();
-               var buttonHTML = '<button type="button" ng-click="acceptInterest();">Accept</button>'
+               var buttonHTML = '<p style = "pull-right;"><a ng-click="acceptInterest();">Accept</a></p>'
                var notifHTML = '<p>' + $scope.ProfName + ' is interested in your project ' + value.name + '!</p>' + buttonHTML;
                var key = firebase.database().ref('nonprofit/'+value.nonprofit).child('notifications').push().key;
                var updates = {};
@@ -54,7 +98,16 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                //var setRef = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/' + numNotes);
                //setRef.set(notifHTML);
             });
+            var profRef = firebase.database().ref('Professors/' + $scope.profHash);
+            profRef.once("value").then(function(snapshot){
+                //var key = firebase.database().ref('Professors/' + $scope.profHash).child('interests').push().key;
+                var updates = {};
+                updates['Professors/'+$scope.profHash+'/interests/' + index] = true;
+                firebase.database().ref().update(updates);
+            });
         }
+        
+        
         
         $scope.checkShow = function(np){
             //console.log(np.skills);
@@ -132,11 +185,22 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             var ref = firebase.database().ref('projects/');
             
             ref.once("value").then(function(snapshot){
-                snapshot.forEach(function(project){
-                    $scope.list[project.val().name] = project.val();
-                    //console.log(project.val());
-                   // console.log($scope.list[np.val()]);
-                })
+                for( var key in snapshot.val()){
+                    console.log(key);
+                    console.log(snapshot.val()[key]);
+                    
+                    if(snapshot.val()[key].status === "open"){
+                        $scope.list[key] = snapshot.val()[key];
+                    }
+                }
+                console.log($scope.list);
+                // snapshot.forEach(function(project){
+                    // if(project.val().status === "open"){
+                        // $scope.list[project.val().name] = project.val();
+                    // }
+                    // console.log(project.val().key);
+                   //console.log($scope.list[np.val()]);
+                // })
                 
                 for(var key in $scope.list){
                     $scope.showCategories[key] = true;
@@ -151,8 +215,11 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                         if(snapshot.exists()){
                             $scope.isProf = true;
                             $scope.ProfName = snapshot.child('username/').val();
-                            console.log($scope.ProfName);
-                            console.log("isProf");
+                            $scope.profHash = hash;
+                            $scope.interests = snapshot.child('interests/').val();
+                            console.log($scope.interests);
+                            //console.log($scope.ProfName);
+                            //console.log("isProf");
                             $scope.$apply();
                         }else{
                             $scope.isProf = false;
