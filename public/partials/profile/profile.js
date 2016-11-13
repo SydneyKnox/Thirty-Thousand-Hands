@@ -46,6 +46,11 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
         
     };
     
+    $scope.acceptInterest = function(emailHash){//this isn't in the right scope
+        console.log("acceptInterest");
+        console.log(emailHash);
+    }
+    
     $scope.createProject = function(){
         var name = $scope.project.Name;
         var description = $scope.project.Description;
