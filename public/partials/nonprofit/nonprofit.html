@@ -17,14 +17,14 @@
         </div>
     </div>
     <div style="height:300px;">
-        <div id="NonProfits" class="col-sm-3" style="float:left;height:300px;" ng-repeat="skill in skills">
-                <img ng-src="/imgs/puppy.jpg" class="img-responsive circle" style="width:auto;height:50%;border-radius:50%;" alt="Non-Profit">
-                <p style="text-center">{{skill}}</p>
+        <div id="NonProfits" class="col-sm-3" style="float:left;height:300px;border-top:30px;" ng-repeat="skill in skills">
+                <img ng-src="/imgs/icons/{{skill}}.svg" class="img-responsive" style="width:auto;height:50%;padding-top:10%;" alt="{{skill}}">
+                
         </div>
     </div>
     <div id="needs" class="text-center">
         <h1>Details of Needs:</h1>
-        
+
         </br>
         <p>{{needs}}</p>
     </div>

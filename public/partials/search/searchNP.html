@@ -6,8 +6,8 @@
             <div uib-collapse = "!clicked">
                 <div class= "well well-lg">
                     <div ng-repeat="subcategory in value">
-                        <label><input type="checkbox" 
-                                      name="{{subcategory}}"  
+                        <label><input type="checkbox"
+                                      name="{{subcategory}}"
                                       value="{{subcategory}}"
                                       id="{{subcategory}}"
                                       ng-model = "checkModel.value[subcategory]"
@@ -18,10 +18,12 @@
         </div>
     </div>
     <div id="page content" class="main">
-        <div class="well well-lg" ng-repeat="(key,value) in list" ng-show="showCategories[value.email]">
-            
-            <h3>{{value.username}}</h3>
-            <p>{{value.about}}</p>
+        <div ng-repeat="(key,value) in list" ng-show="showCategories[value.email]">
+            <a ng-click="getNP(value.email);"><div class="well well-lg" >
+              <h3>{{value.username}}</h3>
+              <p>{{value.about}}</p>
+
+            </div></a>
         </div>
     </div>
 </div>
