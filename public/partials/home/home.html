@@ -1,16 +1,26 @@
-<div class = "text-center" style="height:200px; width:100%;">
-    <h1>Thirty-Thousand Hands</h1>
-</div>
-<div id="team" class="text-center team-image">
-
-</div>
-<div class="container-fluid home-banner">
+<div id="team" class="text-center team-image"></div>
+<div class="container-fluid">
+    <div class="row title">
+      <div class="col-sm-6 text-center">
+        <h2>Our Mission</h2>
+      </div>
+      <div class="col-sm-6 text-center">
+        <h2>Current Projects</h2>
+      </div>
+    </div>
     <div class="row vertical-align">
-        <div id = "mission_statement" class = "container col-sm-6" style="height:300px;">
-            <h1><a href="#/forNP">Mission Statement</a></h1>
+        <div id = "missionStatement" class = "container col-sm-6" style="height:300px;">
+          <p>We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness. — That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed, — That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. </p>
         </div>
-        <div id="PastProjects" class = "col-sm-6" style="height:300px;">
-            <h1><a href="#/forProfs">Past Projects</a></h1>
+        <div id="currentProjects" class = "col-sm-6" style="height:300px;">
+          <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+            <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+              <img ng-src="{{slide.image}}" style="margin:auto;">
+              <div class="carousel-caption">
+                <h4>{{slide.name}}</h4>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
     <div style="height:300px;">

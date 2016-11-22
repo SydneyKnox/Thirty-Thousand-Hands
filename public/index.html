@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="no-js"> 
+<html class="no-js">
 <head>
 
     <!-- Meta-Information -->
@@ -42,102 +42,93 @@
             storageBucket: "nonprofit-91165.appspot.com",
             messagingSenderId: "869188628673"
     };
-    firebase.initializeApp(config);   
+    firebase.initializeApp(config);
     </script>
-   
+
 </head>
-<body ng-app="tutorialWebApp" style="background-color:#FFF;">
+<body ng-app="tutorialWebApp">
 
 <div ng-controller = "SignInCtrl">
     <!-- Our Website Content Goes Here -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="header">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand text-center" href="#/">30,000 Hands</a>
-        </div>
+  <nav class="navbar navbar-fixed-top" role="navigation" id="header">
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand text-center" href="#/">30,000 Hands</a>
+          </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-left">
-                <li><a href="#/about">About</a>
-                </li>
-                <li><a href="#/contact">Contact</a>
-                </li>
-            </ul>
-            <ul class= "nav navbar-nav navbar-right">
-                <li><a href="#/search">Search Non-Profits</a>
-                </li>
-                <li><a ng-show="userSignedIn" ng-click="goToProfile();">My Profile</a>
-                </li>
-                <li><a ng-show="!userSignedIn" href="#/signup">Sign Up</a>
-                </li>
-                <li><a ng-show ="!userSignedIn" data-toggle="modal" data-target="#myModal">Sign In</a>
-                </li>
-                <li><a ng-show ="userSignedIn" ng-click="signOut();">Log Out</a>
-                </li>
-            </ul>
-        </div>
-        
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-    <!-- Sign-In PopUp -->
-    <!-- Modal -->
-    <div>
-        <div class="modal fade" id="myModal" role="dialog">
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul class="nav navbar-nav navbar-left">
+                  <li><a href="#/about">About</a>
+                  </li>
+                  <li><a href="#/contact">Contact</a>
+                  </li>
+              </ul>
+              <ul class= "nav navbar-nav navbar-right">
+                  <li><a href="#/search">Search Non-Profits</a>
+                  </li>
+                  <li><a ng-show="userSignedIn" ng-click="goToProfile();">My Profile</a>
+                  </li>
+                  <li><a ng-show="!userSignedIn" href="#/signup">Sign Up</a>
+                  </li>
+                  <li><a ng-show ="!userSignedIn" data-toggle="modal" data-target="#myModal">Sign In</a>
+                  </li>
+                  <li><a ng-show ="userSignedIn" ng-click="signOut();">Log Out</a>
+                  </li>
+              </ul>
+          </div>
+
+          <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container -->
+  </nav>
+      <!-- Sign-In PopUp -->
+      <!-- Modal -->
+  <div>
+      <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
 
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-              <form role="form" name="regForm" class="form-signin">
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="text" class="form-control" id="email" placeholder="Enter email" ng-model="user.email" required>
-                  <p ng-show="user.invalidEmail">Invalid Email Format</p>
-                  <p ng-show="user.userDoesNotExist">Account does not exist. Register <a href="#/signup">here</a></p>
-                  
-                  <!-- TODO: put in error responses-->
-                </div>
-                <div class="form-group">
-                  <label for="psw">Password</label>
-                  <input type="text" class="form-control" id="password" placeholder="Enter password" ng-model="user.password" required>
-                  <p ng-show="user.incorrectPassword">Incorrect Passsword</p>
-                </div>
-                <div class="checkbox">
-                <!-- TODO: implement remember me box?-->
-                  <label><input type="checkbox" value="" checked>Remember me</label>
-                </div>
-                <button type="submit" id="signInBtn" ng-disabled = "!user.email || !user.password" class="btn btn-default btn-success btn-block" ng-click="signIn();">Login</button>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal">Cancel</button>
-              <p>Not a member? <a href="#/signup" data-dismiss="modal">Sign Up</a></p>
-              <!--TODO: implement password forgetting stuff...-->
-              <p>Forgot <a href="#">Password?</a></p>
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-body">
+                <form role="form" name="regForm" class="form-signin">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" placeholder="Enter email" ng-model="user.email" required>
+                    <p ng-show="user.invalidEmail">Invalid Email Format</p>
+                    <p ng-show="user.userDoesNotExist">Account does not exist. Register <a href="#/signup">here</a></p>
+
+                    <!-- TODO: put in error responses-->
+                  </div>
+                  <div class="form-group">
+                    <label for="psw">Password</label>
+                    <input type="text" class="form-control" id="password" placeholder="Enter password" ng-model="user.password" required>
+                    <p ng-show="user.incorrectPassword">Incorrect Passsword</p>
+                  </div>
+                  <button type="submit" id="signInBtn" ng-disabled = "!user.email || !user.password" class="btn btn-default btn-success btn-block" ng-click="signIn();">Login</button>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal">Cancel</button>
+                <p>Not a member? <a href="#/signup" data-dismiss="modal">Sign Up</a></p>
+              </div>
             </div>
           </div>
-        </div>
         </div>
     </div>
 </div>
 <div ng-view></div>
-    
+
 
     <!-- Socket.IO setup -->
     <script>
-      
+
       //var socket = io.connect();
 
     </script>
@@ -158,6 +149,6 @@
     <script src="partials/search/searchNP.js"></script>
     <script src="partials/search/searchProjects.js"></script>
     <script src="angular-ui-mask/dist/mask.js"></script>
-    
+
 </body>
 </html>

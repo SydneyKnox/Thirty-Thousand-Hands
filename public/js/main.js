@@ -24,28 +24,44 @@ var app = angular.module('tutorialWebApp', [
  */
 app.config(['$routeProvider', function ($routeProvider, $locationProvider) {
   $routeProvider
-    .when("/", 
-        {   templateUrl: "partials/home/home.html", 
+    .when("/",
+        {   templateUrl: "partials/home/home.html",
             controller: "homeCtrl"
         })
     // else 404
-    .otherwise("/404", 
-        {   templateUrl: "partials/404.html", 
+    .otherwise("/404",
+        {   templateUrl: "partials/404.html",
             controller: "PageCtrl"
         });
 }]);
 
-app.controller('homeCtrl',['$scope', '$firebaseAuth', '$location', '$rootScope', '$window', 
+app.controller('homeCtrl',['$scope', '$firebaseAuth', '$location', '$rootScope', '$window',
     function ($scope, $firebaseAuth, $location, $rootScope, $window){
     console.log("Home Controller Reporting for duty");
-    
+
     //$scope.url = $location.url().split('/')[2];
     $scope.nonprofitNames = [];
     $scope.nonprofitNums = [];
-    
+
+    $scope.myInterval = 5000;
+    $scope.noWrapSlides = false;
+    $scope.active = 0;
+    var slides = $scope.slides = [];
+    $scope.slideProjects = {};
+    var currIndex = 0;
+
+    $scope.addSlide = function(i) {//i is the key in firebase
+      var newWidth = 600 + slides.length + 1;
+      slides.push({
+        image: '//unsplash.it/' + newWidth + '/300',
+        id: currIndex++,
+        name: $scope.slideProjects[i].name
+      });
+    };
+
     function getData(){
         var ref = firebase.database().ref("numNonprofits/");
-        
+
         ref.once("value")
           .then(function(snapshot){
             if(snapshot.exists()){
@@ -71,11 +87,23 @@ app.controller('homeCtrl',['$scope', '$firebaseAuth', '$location', '$rootScope',
             }
           })
     };
-    
-    
+
+    function getProjects(){
+      var ref = firebase.database().ref('projects/');
+
+      ref.once("value")
+        .then(function(snapshot){
+          snapshot.forEach(function(project){
+            $scope.slideProjects[project.key] = project.val();
+            $scope.addSlide(project.key);
+          });
+          console.log($scope.slideProjects);
+        });
+    }
+
+
     getData();
+    getProjects();
+    console.log($scope.slides);
 
-    
 }]);
-
-
