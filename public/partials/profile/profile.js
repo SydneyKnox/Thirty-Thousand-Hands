@@ -11,9 +11,9 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
 
 
 
-.controller('profileCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
+.controller('profileCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window',
     function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
-    
+
     var email = '';
     $scope.email = '';
     $scope.phone = '';
@@ -22,49 +22,51 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
     $scope.skills = [];
     $scope.url = $location.url().split('/')[2];
     $scope.oneAtATime = true;
-    var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
+    $scope.picUrl = 'profilePictures/';
+
+    var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"];
     var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
     var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
-    var Technology = ["Engineering", "Computer Science", "Analytics"]; 
+    var Technology = ["Engineering", "Computer Science", "Analytics"];
     var Environment = ["Sustainability", "Natural Sciences", "Urban and Regional Planning", "Gardening"];
     var Business = ["Accounting", "Marketing", "Entrepreneurship", "Statistics", "Economy", "Fundraising and Philanthropy"];
     var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
-    $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology, 
+    $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology,
                          "Environment": Environment, "Business": Business, "Health": Health};
-                             
+
     $scope.status = {
     open: false
     };
-    
+
     $scope.checkModel = {
-        
+
     };
-    
+
     $scope.project = {
-        
+
     };
-    
+
     $scope.notifications = {
-        
+
     };
-    
+
     $scope.acceptInterest = function(emailHash, key){
         console.log("acceptInterest");
         console.log(emailHash);
         console.log(key);
-        
+
         var updates = {};
         updates['projects/' + key + '/status/'] = 'IP';
         updates['projects/' + key + '/professor/'] = emailHash;
         firebase.database().ref().update(updates);
     }
-    
+
     $scope.createProject = function(){
         var name = $scope.project.Name;
         var description = $scope.project.Description;
         var skills = [];
         $scope.numProjects;
-        
+
         for(var box in $scope.checkModel.value){
             if($scope.checkModel.value[box] === true){
                 skills.push(box);
@@ -76,9 +78,9 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
         ref.once("value").then(function(snapshot){
             $scope.numProjects = snapshot.val();
             console.log($scope.numProjects);
-            
+
             var hash = md5.createHash($scope.email);
-            
+
             var newProj = firebase.database().ref('projects/' + $scope.numProjects);
             newProj.set({
                 nonprofit: hash,
@@ -87,22 +89,33 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
                 skills: skills,
                 status: 'open'
             });
-            
+
             firebase.database().ref('numProjects/').set($scope.numProjects + 1);
         });
-        
+
         $scope.status.open = false;
     }
-    
-    
+
+    $scope.submitPic = function(){
+      var NPref = firebase.database().ref('nonprofit/' + hash);
+      var updates = {};
+      var filename = document.getElementById('file');
+      console.log(filename);
+      console.log(filename.files[0].name);
+      //https://s3.amazonaws.com/thirtythousandhandsimages/profilePictures/1493d0f6731e9073840b47f9d586f7b8/december.jpg
+      updates['nonprofit/'+ hash +'/picture'] = 'https://s3.amazonaws.com/thirtythousandhandsimages/profilePictures/' + hash + '/' + filename.files[0].name;
+      firebase.database().ref().update(updates);
+    }
+
+
     if(firebase.auth().currentUser != null){
         email = firebase.auth().currentUser.email;
         console.log(email);
-        
-        
+
+
         var hash = md5.createHash(email);
-        
-        
+        $scope.hash = hash;
+
         var NPref = firebase.database().ref('nonprofit/' + hash);
         NPref.once("value")
             .then(function(snapshot){
@@ -122,7 +135,7 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
                     $scope.$apply();
                 }
             });
-        
+
             var ref = firebase.database().ref('Professors/' + hash +'/email');
             ref.once("value")
                 .then(function(snapshot){
@@ -142,13 +155,13 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
                         });
                     }
                 });
-        
-        
+
+
     } else{
         //$scope.userSignedIn = true;
     }
     }])
-    
-    
-    
+
+
+
   //make separate list of nums and emails

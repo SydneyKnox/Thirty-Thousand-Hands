@@ -13,7 +13,7 @@
           <p>We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness. — That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed, — That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. </p>
         </div>
         <div id="currentProjects" class = "col-sm-6" style="height:300px;">
-          <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+          <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides" class = "carousel">
             <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
               <img ng-src="{{slide.image}}" style="margin:auto;">
               <div class="carousel-caption">
@@ -23,11 +23,5 @@
           </div>
         </div>
     </div>
-    <div style="height:300px;">
-    <div id="NonProfits" class="col-sm-3" style="float:left;height:300px;" ng-repeat="id in nonprofitNums">
 
-            <a href="#/nonprofit/{{id}}"><img ng-src="https://s3.amazonaws.com/thirtythousandhandsimages/icons/Accounting.svg" class="img-responsive circle" style="width:auto;height:50%;border-radius:50%;" alt="Non-Profit"></a>
-
-    </div>
-    </div>
 </div>

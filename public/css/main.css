@@ -24,6 +24,16 @@ body {
 
 /****************************************/
 
+
+/*Carousel*/
+.carousel {
+  height: 100%;
+  width: 100%;
+}
+
+
+/*****************************************/
+
 /*Nav Bar Class*/
 .navbar {
    background-color: rgba(56,119,81,0.8);
