@@ -26,15 +26,53 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
     var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
     $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology,
                          "Environment": Environment, "Business": Business, "Health": Health};
-    $scope.panels = [{"Categories":null,"People":People, "Communicate": Communicate},{"Arts":Arts, "Technology":Technology,
-                          "Environment":Environment},{"Business": Business, "Health":Health, "30,000":null}];
+    $scope.panels = [{"Categories":[''],"People":People, "Communicate": Communicate},{"Arts":Arts, "Technology":Technology,
+                          "Environment":Environment},{"Business": Business, "Health":Health, "30,000":['']}];
 
     $scope.checkModel = {
 
     };
 
+    $scope.subs = {
+      "Categories":true,
+      "People":true,
+      "Communicate":true,
+      "Arts":true,
+      "Technology":true,
+      "Environment":true,
+      "Business":true,
+      "Health":true,
+      "30,000":true
+    };
+
     $scope.uploadFile = function(){
 
+    }
+
+    $scope.overlays = {
+
+    };
+    console.log($scope.subs);
+
+    $scope.checkSubs = function(key){
+    //  $scope.showSubs.show[key] = !$scope.showSubs.show[key];
+      $scope.subs[key] = !$scope.subs[key];
+      console.log(key);
+      console.log($scope.subs);
+      $scope.checkStuff();
+    }
+
+    $scope.checkDisable = function(key){
+      if(key === "Categories" || key === "30,000"){
+        //console.log("Key is disabled");
+        return true;
+      }
+    }
+
+    $scope.toggleOverlay = function(key){
+      console.log(key);
+      console.log($scope.overlays);
+      $scope.overlays.on[key].toggle();
     }
 
     function registerUser(email, password, phoneNumber, skills, username, aboutNP, needs, x){

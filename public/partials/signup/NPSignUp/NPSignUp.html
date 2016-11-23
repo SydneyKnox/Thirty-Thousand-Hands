@@ -26,35 +26,36 @@
             <div id= "needsTitle" class = "text-center">
                 <h2>Needs Categories</h2>
             </div>
-         <!--   <button type="button" class = "btn btn-default" ng-click="checkStuff();">Test</button>
-            <pre style="height: 150px;">Model: {{checkModel}}</pre> -->
-            <div ng-repeat="(key, value) in categories">
-                <button type = "button" class = "btn btn-default" ng-click="clicked = !clicked">{{key}}</button>
-                <div uib-collapse = "!clicked">
-                    <div class= "well well-lg">
-                        <div class="btn-group" >
-                            <button  ng-repeat="subcategory in value" type="button" class="btn btn-primary" ng-model = "checkModel.value[subcategory]" uib-btn-checkbox>{{subcategory}}</button>
-                        </div>
+            <div ng-repeat="row in panels">
+              <div class="row">
+                <div class= "col-xs-4" ng-repeat="(key,value) in row">
+                  <div ng-model = "subs[key]" ng-show="subs[key]"class="panel panel-default vertical-align">
+                    <div class="panel-body">
+                      <div id="title">
+                        <a ng-click="checkSubs(key)" ng-show="(key != 'Categories') && (key!='30,000') "><h4>{{key}}</h4></a>
+                      </div>
                     </div>
-                </div>
-            </div>
-
-              <div ng-repeat="row in panels" class="row">
-                <div ng-repeat="(key,value) in row" class="col-xs-4 panel panel-default">
-                  <div class="panel-body">
-                    <h4>{{key}}</h4>
+                  </div>
+                  <div class="panel panel-default" ng-show="!subs[key]">
+                    <div class="panel-body">
+                        <button  ng-repeat="subcategory in value" type="button" class="btn btn-block" ng-model = "checkModel.value[subcategory]" uib-btn-checkbox>{{subcategory}}</button>
+                        <button class="btn btn-block chevron" ng-click="checkSubs(key)"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
 
         </div>
-        <div>
-             <label for="aboutUs">About:</label>
-             <textarea ng-model="about" rows="5" id="aboutUs"></textarea>
-        </div>
-        <div>
-             <label for="needs">Detailed Description of needs:</label>
-             <textarea ng-model="needs" rows="5" id="needs"></textarea>
+        <div class="row">
+          <div class="col-xs-6">
+               <h3>About:</h3>
+               <textarea ng-model="about" rows="5" id="aboutUs"></textarea>
+          </div>
+          <div class="col-xs-6">
+               <h3>Detailed Description of needs:</h3>
+               <textarea ng-model="needs" rows="5" id="needs"></textarea>
+          </div>
         </div>
         <button type="button" ng-click="signUp();" id="Registerbutton" ng-disabled = "!user.username || !user.email || !user.password" class="btn btn-lg btn-primary btn-block">Register</button>
         </form>
