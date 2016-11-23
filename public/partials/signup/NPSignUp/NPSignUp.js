@@ -26,7 +26,8 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
     var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
     $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology,
                          "Environment": Environment, "Business": Business, "Health": Health};
-
+    $scope.panels = [{"Categories":null,"People":People, "Communicate": Communicate},{"Arts":Arts, "Technology":Technology,
+                          "Environment":Environment},{"Business": Business, "Health":Health, "30,000":null}];
 
     $scope.checkModel = {
 

@@ -7,11 +7,12 @@ html, body {
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background: rgb(254,255,251); /* Old browsers */
-background: -moz-linear-gradient(top, rgba(254,255,251,1) 0%, rgba(241,244,238,1) 49%, rgba(173,197,182,1) 92%, rgba(172,196,181,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, rgba(254,255,251,1) 0%,rgba(241,244,238,1) 49%,rgba(173,197,182,1) 92%,rgba(172,196,181,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, rgba(254,255,251,1) 0%,rgba(241,244,238,1) 49%,rgba(173,197,182,1) 92%,rgba(172,196,181,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefffb', endColorstr='#acc4b5',GradientType=0 );
+    background: url("/imgs/pmablqek.png") no-repeat bottom left fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
 }
 /****************************************/
 
@@ -33,9 +34,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefffb', end
   color: #000;
 }
 
+.npSignup{
+  background-color: rgba(152,211,202,0.8);
+  margin-top: 100px;
+
+}
+/*
+.npSignup .form-group h2{
+  width: 40%;
+}
+*/
+.npSignup .form-group{
+
+}
+
+
+.npSignup .btn{
+  background-color: rgba(56,119,81,0.8);
+}
 
 /******/
 
+.panel {
+  margin: 0 auto;
+  height:300px;
+  width: 30%;
+  margin-left:2%;
+  margin-right:1%;
+  margin-top:3%;
+}
 
 /*Carousel*/
 .carousel {
