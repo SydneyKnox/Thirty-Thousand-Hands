@@ -16,6 +16,8 @@ var app = angular.module('tutorialWebApp', [
   'tutorialWebApp.profProfile',
   'tutorialWebApp.searchNP',
   'tutorialWebApp.searchProjects',
+  'tutorialWebApp.about',
+  'tutorialWebApp.us',
   'ng-htmlCompiler']
 );
 

@@ -13,6 +13,7 @@ body {
     padding: 0;
     height: 100%;
     width: 100%;
+    font-family: 'Josefin Sans', sans-serif;
 }
 /****************************************/
 
@@ -29,6 +30,39 @@ body {
 
 /****************************************/
 
+/*aboutus*/
+
+.about{
+  background: url("/imgs/TTHteam-edited.jpg") no-repeat top left fixed;
+  background-size: cover;
+  margin 0;
+  padding 0;
+  height:100%;
+  width:100%;
+}
+
+.about h1{
+  color: #000;
+  font-family: 'Maitree', serif;
+  /*font-family: 'Pacifico', cursive;*/
+}
+
+.about .us{
+
+  font-family: 'Pacifico', cursive;
+  font-size: 200px;
+}
+.about .us h2{
+  color: #FFF;
+}
+.about .us .bottom{
+  margin-top:50px;
+}
+.about .us .top{
+  margin-bottom:50px;
+}
+/*****************************************/
+
 /*signup background*/
 .signup a{
   color: #000;
@@ -37,7 +71,7 @@ body {
 .npSignup{
   background-color: rgba(152,211,202,0.8);
   margin-top: 100px;
-
+  padding-bottom:50px;
 }
 
 .npSignup .form-signin h2, h3{
@@ -53,7 +87,7 @@ body {
 
 /******/
 
-.panel {
+.skills .panel {
 
   height:300px;
   background-color: rgba(56,119,81,0.8);
@@ -63,31 +97,31 @@ body {
   border:transparent;
   position:relative;
 }
-.panel-body{
+.skills .panel-body{
   padding:0px;
   margin:0px;
 }
 
-.panel a{
+.skills .panel a{
   color: #FFF;
 }
-.panel .btn{
+.skills .panel .btn{
   width:100%;
   margin:0px;
   border-radius: 0;
   color: #FFF;
   background-color:transparent;
 }
-.panel .btn:hover{
+.skills .panel .btn:hover{
   background-color: rgba(56,119,81,0.3);
 }
-.panel .chevron{
+.skills .panel .chevron{
   position: absolute;
   display:inline-block;
   bottom: 0;
   background-color: transparent;
 }
-.panel .chevron .glyphicon{
+.skills .panel .chevron .glyphicon{
   color: #FFF;
 }
 
@@ -136,7 +170,7 @@ body {
 
 /****************************************/
 
-.vertical-align{
+.vertical-align{/*for panels, don't change*/
 
     vertical-align:middle;
     line-height: 300px;
@@ -202,4 +236,30 @@ body {
     content: "\e080";
     float: right;
     color: grey;
+}
+
+/*Us*/
+.us {
+  margin-top:130px;
+}
+.us .question{
+  background-color: rgba(255,255,255,0.5);
+  padding:20px;
+  margin-top:20px;
+  margin-right:20px;
+  margin-bottom:20px;
+  margin-left:0px;
+  padding-top:10px;
+}
+.us .header{
+  text-align:center;
+}
+.us .response{
+  text-align:justify;
+}
+.usPic{
+  /*margin-top:70px;*/
+  margin-left:50px;
+  height:300px;
+  border-radius:50%;
 }

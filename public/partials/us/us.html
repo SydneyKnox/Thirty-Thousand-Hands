@@ -1,0 +1,19 @@
+<div class = "us">
+  <div class="col-xs-4">
+    <img class="usPic" src={{image}}></img>
+  </div>
+  <div class="col-xs-8 row">
+    <h1 style="font-size:60px;"><strong>{{name}}</strong></h1>
+    <h4><i>  {{Major}}</i></h4>
+    <div class="question" ng-repeat="(question, answer) in questions">
+      <div class="header"><h1>{{question}}</h1></div>
+      <hr style="height:2px;border-color:#000;">
+      <div class="response"><h3>{{answer}}</h3></div>
+    </div>
+    <h1>{{experience}}</h1>
+    <h1>{{graduation}}</h1>
+    <h1>{{inspiration}}</h1>
+    <h1>{{strength}}</h1>
+    <h1>{{youKnow}}</h1>
+  </div>
+</div>
