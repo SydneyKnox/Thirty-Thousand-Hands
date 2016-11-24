@@ -45,15 +45,6 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
       "30,000":true
     };
 
-    $scope.uploadFile = function(){
-
-    }
-
-    $scope.overlays = {
-
-    };
-    console.log($scope.subs);
-
     $scope.checkSubs = function(key){
     //  $scope.showSubs.show[key] = !$scope.showSubs.show[key];
       $scope.subs[key] = !$scope.subs[key];
@@ -62,20 +53,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
       $scope.checkStuff();
     }
 
-    $scope.checkDisable = function(key){
-      if(key === "Categories" || key === "30,000"){
-        //console.log("Key is disabled");
-        return true;
-      }
-    }
-
-    $scope.toggleOverlay = function(key){
-      console.log(key);
-      console.log($scope.overlays);
-      $scope.overlays.on[key].toggle();
-    }
-
-    function registerUser(email, password, phoneNumber, skills, username, aboutNP, needs, x){
+    function registerUser(email, password, phoneNumber, skills, username, aboutNP, needs){
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .catch(function(error){//this error checking should catch already exists type stuff
@@ -91,7 +69,8 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                 firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function(){
                          console.log("successfully signed in new user");
-
+                         email = email.toLowerCase();
+                         console.log(email);
                          //retrieve numNPs
                          var numNP = firebase.database().ref('numNonprofits');
                          numNP.once("value")
@@ -101,7 +80,10 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                             firebase.database().ref('nonprofitEmails/' + num).set({
                                 email: email
                             })
+                            console.log(email);
+                            console.log(md5.createHash(email));
                             var hash = md5.createHash(email);
+                            console.log(hash);
                             firebase.database().ref('nonprofit/' + hash).set({
                                 username: username,
                                 email: email,
@@ -109,33 +91,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                                 skills: skills,
                                 about: aboutNP,
                                 needs: needs
-                            }).then(function(){
-                                var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
-                                //var x = document.getElementById('nameImg');
-                                console.log(x);
-                                if(x.files.length > 0){
-                                  console.log(x.files.length);
-                                  var file = x.files[0];
-                                  var blnValid = false;
-                                  for (var j = 0; j < _validFileExtensions.length; j++) {
-                                    var sCurExtension = _validFileExtensions[j];
-                                    if (file.name.substr(file.name.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
-                                      blnValid = true;
-                                      var ref = firebase.storage().ref('nonprofitProfilePictures/' + hash + '/profile_picture');
-                                      ref.put(file).then(function(snapshot){
-                                        console.log("Uploaded file!");
-                                      });
-                                    }
-                                  }
-                                  if('name' in file){
-                                    console.log(file.name);
-                                  }
-                                  if('size' in file){
-                                    console.log(file.size);
-                                  }
-                                }
-                            })
-                            .catch(function(error){
+                            }).catch(function(error){
                                  var errorcode = error.code;
                                  var errorMessage = error.message;
                                  console.log("Error: " + errorMessage);
@@ -176,9 +132,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         var skills = [];
         var aboutNP = $scope.about;
         var needs = $scope.needs;
-        var x = document.getElementById('inputImage');
 
-        console.log(x);
         angular.forEach($scope.checkModel.value, function (value, key) {
           if (value) {
 
@@ -191,7 +145,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         if(!$scope.regForm.$invalid){
             console.log("Valid form Submission");
 
-            var registered = registerUser(txtEmail, txtPassword,phoneNumber, skills, username, aboutNP, needs, x);
+            var registered = registerUser(txtEmail, txtPassword,phoneNumber, skills, username, aboutNP, needs);
 
             if(registered){
                 console.log("All successful");
