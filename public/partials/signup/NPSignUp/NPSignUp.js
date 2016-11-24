@@ -65,13 +65,11 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
             .then(function(){
                 console.log("successfully authorized user");
 
-                //sign in newly authorized user
                 firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(function(){
                          console.log("successfully signed in new user");
                          email = email.toLowerCase();
                          console.log(email);
-                         //retrieve numNPs
                          var numNP = firebase.database().ref('numNonprofits');
                          numNP.once("value")
                           .then(function(snapshot) {
@@ -80,10 +78,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                             firebase.database().ref('nonprofitEmails/' + num).set({
                                 email: email
                             })
-                            console.log(email);
-                            console.log(md5.createHash(email));
                             var hash = md5.createHash(email);
-                            console.log(hash);
                             firebase.database().ref('nonprofit/' + hash).set({
                                 username: username,
                                 email: email,

@@ -18,9 +18,7 @@ angular.module('tutorialWebApp.profSignUp', ['ngRoute','firebase'])
     $scope.clicked = false;
 
 
-    $scope.checkModel = {
 
-    };
 
     var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"];
     var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
@@ -31,17 +29,32 @@ angular.module('tutorialWebApp.profSignUp', ['ngRoute','firebase'])
     var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
     $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology,
                          "Environment": Environment, "Business": Business, "Health": Health};
+    $scope.panels = [{"Categories":[''],"People":People, "Communicate": Communicate},{"Arts":Arts, "Technology":Technology,
+                         "Environment":Environment},{"Business": Business, "Health":Health, "30,000":['']}];
 
+    $scope.checkModel = {
 
-    $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-                    'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia',
-                    'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas',
-                    'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts',
-                    'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana',
-                    'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico',
-                    'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma',
-                    'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota',
-                    'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+    };
+
+    $scope.subs = {
+      "Categories":true,
+      "People":true,
+      "Communicate":true,
+      "Arts":true,
+      "Technology":true,
+      "Environment":true,
+      "Business":true,
+      "Health":true,
+      "30,000":true
+    };
+
+    $scope.checkSubs = function(key){
+    //  $scope.showSubs.show[key] = !$scope.showSubs.show[key];
+      $scope.subs[key] = !$scope.subs[key];
+      console.log(key);
+      console.log($scope.subs);
+      $scope.checkStuff();
+    }
 
     function registerUser(email, password, phoneNumber, skills, username){
 
@@ -142,7 +155,6 @@ angular.module('tutorialWebApp.profSignUp', ['ngRoute','firebase'])
         $scope.user.username = '';
         $scope.user.email = '';
         $scope.user.password = '';
-       // $scope.selected = '';
         $scope.phonenumber = '';
     };
 }]);
