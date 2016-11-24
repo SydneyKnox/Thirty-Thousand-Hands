@@ -1,25 +1,28 @@
-<div class="container-fluid home-banner">
-    <div id="logo" class="text-center" style="height:300px;">
-        <a href="#/nonprofit/id3"><img ng-src="/imgs/puppy.jpg" class="circle" style="padding-top: 30px;padding-bottom:20px;" alt="Non-Profit"></a>
-    </div>
-    <div class="text-center">
-        <h1>{{name}}</h1>
-    </div>
-    <div class="row vertical-align">
-        <div id = "info" class = "container col-sm-6" style="height:300px;background-color:#00B2B9;">
-            <h1><a href="#/forNP">Info:</a></h1>
-            <p>{{email}}</p>
-            <p>{{phoneNumber}}</p>
-            <p>{{description}}</p>
+<div class="container-fluid nonprofit">
+    <div>
+      <div class="col-xs-4" style="height:300px;margin-right:0px;padding-right:0px;">
+        <img ng-src={{image}} style="height:100%;width:100%;">
+      </div>
+      <div class="col-xs-8 section" style="height:300px;">
+        <div class="row" style="height:231px;padding-left:15px;">
+          <h1 style="color: rgb(100,100,100);">{{name}}</h1>
+          <h4 style="color: rgb(100,100,100);">{{description}}</h4>
         </div>
-        <div id="PastProjects" class = "col-sm-6" style="height:300px;background-color:#00B2B9;">
-            <h1><a href="#/forProfs">Past Projects</a></h1>
+        <div class="row" style="height:70px;">
+          <div class="col-xs-6">
+            <h2 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-envelope" style="color: rgb(100,100,100);"></span>  {{email}}</h2>
+          </div>
+          <div class="col-xs-6">
+            <h2 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-earphone" style="color: rgb(100,100,100);"></span>  {{phoneNumber}}</h2>
+          </div>
         </div>
+      </div>
     </div>
+
     <div style="height:300px;">
         <div id="NonProfits" class="col-sm-3" style="float:left;height:300px;border-top:30px;" ng-repeat="skill in skills">
                 <img ng-src="/imgs/icons/{{skill}}.svg" class="img-responsive" style="width:auto;height:50%;padding-top:10%;" alt="{{skill}}">
-                
+
         </div>
     </div>
     <div id="needs" class="text-center">

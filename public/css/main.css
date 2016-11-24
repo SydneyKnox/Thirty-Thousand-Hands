@@ -63,6 +63,10 @@ body {
 }
 /*****************************************/
 
+
+
+
+
 /*signup background*/
 .signup a{
   color: #000;
@@ -84,6 +88,10 @@ body {
 .npSignup .btn{
   background-color: rgba(56,119,81,0.8);
 }
+
+
+
+
 
 /******/
 
@@ -125,6 +133,10 @@ body {
   color: #FFF;
 }
 
+
+
+
+
 /*Carousel*/
 .carousel {
   max-height: 300px;
@@ -139,8 +151,11 @@ body {
   margin-right: -40px;
 }
 
-
 /*****************************************/
+
+
+
+
 
 /*Nav Bar Class*/
 .navbar {
@@ -157,6 +172,10 @@ body {
 }
 /*****************************************/
 
+
+
+
+
 /*sign in modal*/
 .modal-content{
   background-color: rgba(56,119,81,0.8);
@@ -170,6 +189,9 @@ body {
 
 /****************************************/
 
+
+
+
 .vertical-align{/*for panels, don't change*/
 
     vertical-align:middle;
@@ -177,11 +199,31 @@ body {
     text-align:center;
 }
 
-.home-banner .img-responsive{
+
+
+
+
+/*nonprofit page*/
+.nonprofit{
+  margin-top:100px;
+  padding-left:10%;
+  padding-right:10%;
+
+}
+.nonprofit .img-responsive{
     height:100%;
     width:20%;
     margin: 0 auto;
 }
+
+.nonprofit .section{
+  background-color: rgba(255,255,255,0.5);
+}
+
+
+
+
+
 
 /*Image on home page*/
 
@@ -194,6 +236,12 @@ body {
     width:100%;
 }
 /****************************************/
+
+
+
+
+
+
 
 /*stuff for search side-nav bar*/
 
@@ -237,6 +285,10 @@ body {
     float: right;
     color: grey;
 }
+
+
+
+
 
 /*Us*/
 .us {

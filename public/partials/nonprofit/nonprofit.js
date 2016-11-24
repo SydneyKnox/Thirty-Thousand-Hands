@@ -9,9 +9,9 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
   });
 }])
 
-.controller('nonprofitCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
+.controller('nonprofitCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window',
     function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
-        
+
         $scope.url = $location.url().split('/')[2];
         $scope.email = '';
         $scope.phoneNumber = '';
@@ -19,20 +19,19 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
         $scope.name = '';
         $scope.description = '';
         $scope.needs = '';
-        
+        $scope.image = '';
         $scope.isNonprofit = false;
-        
+
         function getData(){
             var numRef = firebase.database().ref("nonprofitEmails/" + $scope.url);
-            
+
             numRef.once("value")
               .then(function(snapshot){
                 if(snapshot.exists()){
                     $scope.email = snapshot.child("email/").val();
                     console.log($scope.email);
-                    
+                    //$scope.email = $scope.email.toLowerCase();
                     var hash = md5.createHash($scope.email);
-                    
                     var ref = firebase.database().ref('nonprofit/' + hash);
                     ref.once("value").then(function(snapshot){
                         $scope.phoneNumber = snapshot.child('phone/').val();
@@ -40,18 +39,20 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
                         $scope.name = snapshot.child('username/').val();
                         $scope.description = snapshot.child('about/').val();
                         $scope.needs = snapshot.child('needs/').val();
+                        $scope.image = snapshot.child('picture/').val();
+                        console.log($scope.image);
                         $scope.$apply();
-                        
+
                         isUserNonprofit();
                     });
-                    
+
                     //$window.location.reload();
                 } else{
                     console.log("snapshot does not exist");
                 }
               });
         };
-        
+
         function isUserNonprofit(){
             var currUser = firebase.auth().currentUser;
             console.log(currUser);
@@ -67,7 +68,7 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
                 }
             }
         }
-       
+
         getData();
         //isUserNonprofit();
     }]);
