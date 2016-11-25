@@ -21,6 +21,8 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
         $scope.needs = '';
         $scope.image = '';
         $scope.isNonprofit = false;
+        $scope.projects = {};
+        $scope.projectNums = {};
 
         function getData(){
             var numRef = firebase.database().ref("nonprofitEmails/" + $scope.url);
@@ -33,18 +35,26 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
                     //$scope.email = $scope.email.toLowerCase();
                     var hash = md5.createHash($scope.email);
                     var ref = firebase.database().ref('nonprofit/' + hash);
-                    ref.once("value").then(function(snapshot){
+                    ref.once("value")
+                      .then(function(snapshot){
                         $scope.phoneNumber = snapshot.child('phone/').val();
                         $scope.skills = snapshot.child('skills/').val();
                         $scope.name = snapshot.child('username/').val();
                         $scope.description = snapshot.child('about/').val();
                         $scope.needs = snapshot.child('needs/').val();
                         $scope.image = snapshot.child('picture/').val();
+                        $scope.website = snapshot.child('website/').val();
+                        $scope.narrative = snapshot.child('narrative/').val();
+                        $scope.projectNums = snapshot.child('projects/').val();
+                        console.log($scope.projectNums);
+                        if($scope.website === null){
+                          $scope.website = '';
+                        }
                         console.log($scope.image);
                         $scope.$apply();
 
-                        isUserNonprofit();
-                    });
+                        getProjects();
+                      });
 
                     //$window.location.reload();
                 } else{
@@ -53,22 +63,23 @@ angular.module('tutorialWebApp.nonprofit', ['ngRoute','firebase'])
               });
         };
 
-        function isUserNonprofit(){
-            var currUser = firebase.auth().currentUser;
-            console.log(currUser);
-            if(currUser != null){
-                var currEmail = currUser.email;
-                //user is signed in
-                if(currEmail.toLowerCase() === $scope.email.toLowerCase()){
-                    console.log(currEmail.toLowerCase());
-                    console.log($scope.email.toLowerCase());
-                    $scope.isNonprofit = true;
-                    console.log($scope.isNonprofit);
-                    $scope.$apply();
-                }
+        function getProjects(){
+
+            var projs = {};
+            for(var key in $scope.projectNums){
+              console.log(key);
+              var projectRef = firebase.database().ref('projects/' + key);
+              console.log(projectRef);
+
+              projectRef.once("value").then(function(snapshot){
+                console.log(snapshot.val());
+                $scope.projects[snapshot.key] = snapshot.val();
+                $scope.$apply();
+                console.log($scope.projects);
+              });
             }
         }
 
         getData();
-        //isUserNonprofit();
+
     }]);

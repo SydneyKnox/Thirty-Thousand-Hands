@@ -1,34 +1,50 @@
 <div class="container-fluid nonprofit">
-    <div>
-      <div class="col-xs-4" style="height:300px;margin-right:0px;padding-right:0px;">
-        <img ng-src={{image}} style="height:100%;width:100%;">
-      </div>
-      <div class="col-xs-8 section" style="height:300px;">
-        <div class="row" style="height:231px;padding-left:15px;">
-          <h1 style="color: rgb(100,100,100);">{{name}}</h1>
-          <h4 style="color: rgb(100,100,100);">{{description}}</h4>
-        </div>
-        <div class="row" style="height:70px;">
-          <div class="col-xs-6">
-            <h2 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-envelope" style="color: rgb(100,100,100);"></span>  {{email}}</h2>
-          </div>
-          <div class="col-xs-6">
-            <h2 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-earphone" style="color: rgb(100,100,100);"></span>  {{phoneNumber}}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div style="height:300px;">
+
+      <div class="row">
+        <div class="col-xs-4" style="height:300px;margin-right:0px;padding-right:0px;">
+          <img ng-src={{image}} style="height:100%;width:100%;">
+        </div>
+        <div class="col-xs-8 section" style="height:300px;">
+          <div class="row" style="height:231px;padding-left:15px;">
+            <h1 style="color: rgb(100,100,100);">{{name}}</h1>
+            <h4 style="color: rgb(100,100,100);">{{description}}</h4>
+          </div>
+          <div class="row" style="height:70px;">
+            <div class="col-xs-4">
+              <h3 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-envelope" style="color: rgb(100,100,100);"></span>  {{email}}</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-earphone" style="color: rgb(100,100,100);"></span>  {{phoneNumber}}</h3>
+            </div>
+            <div class="col-xs-4">
+              <h3 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-globe" style="color: rgba(100,100,100);"></span>  {{website}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="section" style="margin-top:20px;padding:20px;">
+          <h3>{{narrative}}</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="section" style="margin-top:20px;padding:20px;">
+          <h1 style="padding-left:20px;">Our Projects:</h1>
+          <div class="row project" ng-repeat="project in projects" style="background-color: rgba(56,119,81,0.5);margin:20px; padding:20px;">
+            <h2>{{project.name}}</h2>
+            <hr>
+            <h3>{{description}}</h3><br />
+            <h4 ng-repeat="skill in project.skills" style="display:inline; color: rgb(100,100,100);">|   {{skill}}    |</h4>
+          </div>
+        </div>
+      </div>
+
+
+    <div style="height:300px;margin-top:20px;">
         <div id="NonProfits" class="col-sm-3" style="float:left;height:300px;border-top:30px;" ng-repeat="skill in skills">
                 <img ng-src="/imgs/icons/{{skill}}.svg" class="img-responsive" style="width:auto;height:50%;padding-top:10%;" alt="{{skill}}">
-
+                <h3 style="text-align: center;">{{skill}}</h3>
         </div>
-    </div>
-    <div id="needs" class="text-center">
-        <h1>Details of Needs:</h1>
-
-        </br>
-        <p>{{needs}}</p>
     </div>
 </div>

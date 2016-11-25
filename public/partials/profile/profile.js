@@ -90,6 +90,10 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
                 status: 'open'
             });
 
+            var updates = {};
+            updates['nonprofit/' + hash + '/projects/' + $scope.numProjects] = 'IP';
+            firebase.database().ref().update(updates);
+
             firebase.database().ref('numProjects/').set($scope.numProjects + 1);
         });
 

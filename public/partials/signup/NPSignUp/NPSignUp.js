@@ -53,7 +53,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
       $scope.checkStuff();
     }
 
-    function registerUser(email, password, phoneNumber, skills, username, aboutNP, needs){
+    function registerUser(narrative, email, password, phoneNumber, skills, username, aboutNP, needs, website){
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .catch(function(error){//this error checking should catch already exists type stuff
@@ -85,7 +85,9 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
                                 phone: phoneNumber,
                                 skills: skills,
                                 about: aboutNP,
-                                needs: needs
+                                needs: needs,
+                                website: website,
+                                narrative: narrative
                             }).catch(function(error){
                                  var errorcode = error.code;
                                  var errorMessage = error.message;
@@ -127,6 +129,8 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         var skills = [];
         var aboutNP = $scope.about;
         var needs = $scope.needs;
+        var website = $scope.website;
+        var narrative = $scope.narrative;
 
         angular.forEach($scope.checkModel.value, function (value, key) {
           if (value) {
@@ -140,7 +144,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         if(!$scope.regForm.$invalid){
             console.log("Valid form Submission");
 
-            var registered = registerUser(txtEmail, txtPassword,phoneNumber, skills, username, aboutNP, needs);
+            var registered = registerUser(narrative, txtEmail, txtPassword,phoneNumber, skills, username, aboutNP, needs, website);
 
             if(registered){
                 console.log("All successful");
@@ -160,5 +164,7 @@ angular.module('tutorialWebApp.NPSignUp', ['ngRoute','firebase'])
         $scope.phonenumber = '';
         $scope.about = '';
         $scope.needs = '';
+        $scope.website = '';
+        $scope.narrative = '';
     };
 }]);

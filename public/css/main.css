@@ -139,7 +139,7 @@ body {
 
 /*Carousel*/
 .carousel {
-  max-height: 300px;
+  max-height: 500px;
   width: 100%;
 
   margin-top: -3px;
@@ -218,6 +218,36 @@ body {
 
 .nonprofit .section{
   background-color: rgba(255,255,255,0.5);
+}
+
+.nonprofit h1{
+  color: rgb(100,100,100);
+}
+.nonprofit h2{
+  color: rgb(100,100,100);
+}
+.nonprofit h3{
+  color: rgb(100,100,100);
+}
+.nonprofit h4{
+  color: rgb(100,100,100);
+}
+.nonprofit h5{
+  color: rgb(100,100,100);
+}
+.nonprofit h6{
+  color: rgb(100,100,100);
+}
+.nonprofit .project h2{
+  color: rgb(50,50,50);
+}
+
+.nonprofit .project h3{
+  color: rgb(50,50,50);
+}
+
+.nonprofit .project h4{
+  color: rgb(50,50,50);
 }
 
 
