@@ -1,58 +1,98 @@
-<h1>nonprofit Profile</h1>
-<div class = "well well-lg text-center">
-   <h3><a href="#/editNeeds/{{url}}">edit needs {{url}}</a></h3>
-</div>
-<div class = "well well-sm text-center">
-  <h2>{{hash}}</h2>
-  <form action="http://s3.amazonaws.com/thirtythousandhandsimages" method="post" enctype="multipart/form-data">
-    <input type="text" name="key" value="profilePictures/{{hash}}/${filename}" />
-    <input type="text" name="acl" value="public-read" />
-    <input type="text" name="content-type" value="image/" />
-    <input type="hidden" name="AWSAccessKeyId" value="AKIAIQTRYIJCM7ZR6XUQ" />
-    <input type="hidden" name="policy" value="ewogICJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMTI6MDA6MDAuMDAwWiIsCiAgImNvbmRpdGlvbnMiOiBbCiAgICB7ImJ1Y2tldCI6ICJ0aGlydHl0aG91c2FuZGhhbmRzaW1hZ2VzIiB9LAogICAgeyJhY2wiOiAicHVibGljLXJlYWQiIH0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRrZXkiLCAiIl0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiaW1hZ2UvIl0sCiAgXQp9Cg==" />
-    <input type="hidden" name="signature" value="15UQabgUc7w+e0J+/nsYq1CUHWM=" />
-    <input name="file" type="file" id="file"/>
-    <input name="submit" value="Upload" type="submit" ng-click="submitPic();" />
-  </form>
-</div>
-<div class = "well well-lg text-center">
-    <div id="notifs" ng-repeat="(key,value) in notifications">
-        <p ng-bind-html = value compile = value></p>
+<div class="nonprofit">
+  <div class="row">
+    <div class="col-xs-4" style="height:300px;margin-right:0px;padding-right:0px;">
+      <img ng-src={{image}} style="height:100%;width:100%;">
     </div>
-</div>
-<uib-accordion close-others="oneAtATime">
-    <div uib-accordion-group class="panel-default" is-open="status.open">
-      <uib-accordion-heading>
-        <h3 class = "text-center"><a href = "#/">Create a Project</a></h3>
-      </uib-accordion-heading>
-        <form>
-          <div class="form-group">
-            <label for="ProjectName">Project Name</label>
-            <input type="name" class="form-control" id="ProjectName" placeholder="Project Name" ng-model="project.Name">
+    <div class="col-xs-8 section" style="height:300px;">
+      <div class="row" style="height:231px;padding-left:15px;">
+        <h1 style="color: rgb(100,100,100);">{{username}}</h1>
+        <h4 style="color: rgb(100,100,100);">{{about}}</h4>
+      </div>
+      <div class="row" style="height:70px;">
+        <div class="col-xs-4">
+          <h3 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-envelope" style="color: rgb(100,100,100);"></span>  {{email}}</h3>
+        </div>
+        <div class="col-xs-4">
+          <h3 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-earphone" style="color: rgb(100,100,100);"></span>  {{phone}}</h3>
+        </div>
+        <div class="col-xs-4">
+          <h3 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-globe" style="color: rgba(100,100,100);"></span>  {{website}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="section" style="margin-top:20px;padding:20px;">
+      <h3>{{narrative}}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="section" style="margin-top:20px;padding:20px;">
+      <div style="text-align:center;"><h1>Notifications</h1></div>
+      <hr style="height:2px;border-color:#000;">
+          <div id="notifs" ng-repeat="(key,value) in notifications">
+              <p ng-bind-html = value compile = value></p>
           </div>
-          <div class = "form-group">
-            <label for= "Description">Project Description</label>
-            <textarea id = "Description" placeholder = "Project Description" class="form-control" rows="3" ng-model= "project.Description"></textarea>
-          </div>
-          <div class = "form-group">
-              <label for="tags">Choose categories applicable to your project:</label>
-              <div id="tags" ng-repeat="(key, value) in categories">
-                <h3 class= "text-center"><a ng-click="clicked = !clicked">{{key}}</a></h3>
-                <div uib-collapse = "!clicked">
-                    <div class= "well well-lg">
-                        <div class="checkbox-inline" ng-repeat="subcategory in value">
-                            <label><input type="checkbox"
-                                          name="{{subcategory}}"
-                                          value="{{subcategory}}"
-                                          id="{{subcategory}}"
-                                          ng-model = "checkModel.value[subcategory]"
-                                          ng-click = "filterResults(this)">{{subcategory}}</label><br>
-                        </div>
-                    </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="section" style="margin-top:20px;padding:20px;">
+      <div style="text-align:center;"><h1>Edit Profile Picture</h1></div>
+      <hr style="height:2px;border-color:#000;">
+      <div style="text-align:center;">
+        <form action="http://s3.amazonaws.com/thirtythousandhandsimages" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="key" value="profilePictures/{{hash}}/${filename}" />
+          <input type="hidden" name="acl" value="public-read" />
+          <input type="hidden" name="content-type" value="image/" />
+          <input type="hidden" name="AWSAccessKeyId" value="AKIAIQTRYIJCM7ZR6XUQ" />
+          <input type="hidden" name="policy" value="ewogICJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMTI6MDA6MDAuMDAwWiIsCiAgImNvbmRpdGlvbnMiOiBbCiAgICB7ImJ1Y2tldCI6ICJ0aGlydHl0aG91c2FuZGhhbmRzaW1hZ2VzIiB9LAogICAgeyJhY2wiOiAicHVibGljLXJlYWQiIH0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRrZXkiLCAiIl0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiaW1hZ2UvIl0sCiAgXQp9Cg==" />
+          <input type="hidden" name="signature" value="15UQabgUc7w+e0J+/nsYq1CUHWM=" />
+          <input style="margin-left:44%;" name="file" type="file" id="file"/><br />
+          <input name="submit" value="Upload" type="submit" ng-click="submitPic();" />
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="section" style="margin-top:20px;padding:20px;">
+      <div style="text-align:center;"><a><h1 ng-click="openProject=!openProject">Create Project</h1></a></div>
+      <hr style="height:2px;border-color:#000;">
+      <div style="text-align:center;" ng-show="openProject">
+          <form>
+            <div class="form-group">
+              <label for="ProjectName">Project Name</label>
+              <input type="name" class="form-control" id="ProjectName" placeholder="Project Name" ng-model="project.Name">
+            </div>
+            <div class = "form-group">
+              <label for= "Description">Project Description</label>
+              <textarea id = "Description" placeholder = "Project Description" class="form-control" rows="3" ng-model= "project.Description"></textarea>
+            </div>
+            <div class = "form-group">
+                <label for="tags">Choose categories applicable to your project:</label>
+                <div id="tags" ng-repeat="(key, value) in categories">
+                  <h3 class= "text-center"><a ng-click="clicked = !clicked">{{key}}</a></h3>
+                  <div uib-collapse = "!clicked">
+                      <div class= "well well-lg">
+                          <div class="checkbox-inline" ng-repeat="subcategory in value">
+                              <label><input type="checkbox"
+                                            name="{{subcategory}}"
+                                            value="{{subcategory}}"
+                                            id="{{subcategory}}"
+                                            ng-model = "checkModel.value[subcategory]"
+                                            ng-click = "filterResults(this)">{{subcategory}}</label><br>
+                          </div>
+                      </div>
+                  </div>
                 </div>
-              </div>
-          </div>
+            </div>
           <button type="submit" class="btn btn-default" ng-click = "createProject();" ng-disable = "projectName || projectDescription">Submit</button>
         </form>
+      </div>
     </div>
-</uib-accordion>
+  </div>
+</div>
+
+
+<div class = "well well-lg text-center">
+   <h3><a href="#/editNeeds/{{url}}">Edit profile</a></h3>
+</div>

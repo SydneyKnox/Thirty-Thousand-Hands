@@ -23,6 +23,7 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
     $scope.url = $location.url().split('/')[2];
     $scope.oneAtATime = true;
     $scope.picUrl = 'profilePictures/';
+    $scope.image = '';
 
     var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"];
     var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
@@ -49,6 +50,8 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
     $scope.notifications = {
 
     };
+
+    $scope.openProject = false;
 
     $scope.acceptInterest = function(emailHash, key){
         console.log("acceptInterest");
@@ -126,16 +129,14 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
                 if(snapshot != null){
                     $scope.email = email;
                     $scope.phone = snapshot.child('phone/').val();
-                    console.log($scope.phone);
+                    $scope.image = snapshot.child('picture/').val();
                     $scope.username = snapshot.child('username/').val();
-                    console.log($scope.username);
+                    $scope.narrative = snapshot.child('narrative/').val();
                     $scope.about = snapshot.child('about/').val();
-                    console.log(snapshot.child('about/').val());
                     $scope.skills = snapshot.child('skills/').val();
-                    console.log(snapshot.child('skills/').val());
+                    $scope.website = snapshot.child('website/').val();
                     //console.log(snapshot.val());
                     $scope.notifications = snapshot.child('notifications/').val();
-                    console.log(snapshot.child('notifications/').val());
                     $scope.$apply();
                 }
             });
