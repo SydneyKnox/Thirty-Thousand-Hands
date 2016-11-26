@@ -282,9 +282,11 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #D3D3D3;
+    background-color: transparent;
+    border-color: rgb(100,100,100);
     overflow-x:hidden;
     padding-top: 60px;
+    margin-top:40px;
     transition: 0.5s;
 }
 

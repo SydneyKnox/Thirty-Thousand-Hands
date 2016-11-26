@@ -38,6 +38,8 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
 
         }
 
+        $scope.numChecked = 0;
+
         $scope.checkShow = function(np){
             //console.log(np.skills);
             np.skills.forEach(function(skill){
@@ -59,6 +61,7 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
                 for(var key in $scope.showCategories){ //showCategories is the one that is email:T/F
                     $scope.showCategories[key] = false;
                 }
+                $scope.numChecked = $scope.numChecked +1;
                 //go through each np, check if it's skills include the checked tag
                 //if yes, set that np to true in the email list.
                 for(var key in $scope.list){
@@ -74,6 +77,7 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
                 if(document.getElementById(category.subcategory).checked){
                     console.log(category.subcategory + "checked");
                     //for each email in the np object list
+                    $scope.numChecked = $scope.numChecked +1;
                     for(var key in $scope.list){
                         //if this np includes the checked tag
                         if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
@@ -86,6 +90,7 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
                 }else{
                     //box is (now?) unchecked
                     //for each email in the email/np object list
+                    $scope.numChecked = $scope.numChecked - 1;
                     for(var key in $scope.list){
                         //if that np's skills includes the unchecked box
                         if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
@@ -102,6 +107,15 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
                         }
                     }
                     //$scope.showCategories[category.subcategory] = true;
+                }
+
+                if($scope.numChecked == 0){
+                  console.log("back to 0");
+                  for(var key in $scope.showCategories){
+                    $scope.showCategories[key] = true;
+                  }
+
+                  $scope.filteredPage = false;
                 }
             }
             //console.log($scope.showCategories);
@@ -125,6 +139,7 @@ angular.module('tutorialWebApp.searchNP', ['ngRoute','firebase'])
             })
           })
         }
+
         var ref = firebase.database().ref('nonprofit/');
 
         ref.once("value").then(function(snapshot){

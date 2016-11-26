@@ -31,15 +31,15 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                 }
             }
         });
-        
-        
+
+
     };
-    
+
 })
 
 .controller('ModalInstanceCtrl', function ($uibModalInstance,key, value, profHash) {
   var $ctrl = this;
-  
+
   $ctrl.key = key;
   $ctrl.profHash = profHash;
   $ctrl.value = value;
@@ -80,40 +80,42 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
   };
 })
 
-.controller('searchProjectsCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window', 
+.controller('searchProjectsCtrl', ['$scope','md5', '$firebaseAuth', '$location', '$rootScope', '$window',
     function ($scope,md5, $firebaseAuth, $location, $rootScope, $window){
-        
+
         $scope.isCollapsed = false;
         $scope.isCollapsedHorizontal = false;
         $scope.clicked = false;
         $scope.ifProf = false;
         $scope.ProfName = '';
         $scope.profHash = '';
-        var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"]; 
+        var People = ["Education", "Early Childhood Studies", "Psychology", "Social Work", "Sociology", "Anthropology", "Political Science", "Legal Services"];
         var Communicate = ["Mass Communications", "Journalism", "Grant and Technical Writing", "Public Relations", "Event Planning", "Languages and Interpretation"];
         var Arts = ["Creative Writing", "Visual Arts", "Design", "Performing Arts"];
-        var Technology = ["Engineering", "Computer Science", "Analytics"]; 
+        var Technology = ["Engineering", "Computer Science", "Analytics"];
         var Environment = ["Sustainability", "Natural Sciences", "Urban and Regional Planning", "Gardening"];
         var Business = ["Accounting", "Marketing", "Entrepreneurship", "Statistics", "Economy", "Fundraising and Philanthropy"];
         var Health = ["Nursing", "Pre-Med", "Public Health", "Global Health"];
-        $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology, 
+        $scope.categories = {"People": People, "Communicate": Communicate, "Arts": Arts, "Technology": Technology,
                              "Environment": Environment, "Business": Business, "Health": Health};
         $scope.filteredPage = false;
-        
+
         $scope.checkModel = {
-        
+
         };
-        
+
         $scope.list = {
-            
+
         }
-        
+
         $scope.showCategories = {
-            
+
         }
-        
+
+        $scope.numChecked = 0;
+
         // $scope.submitInterest = function(index, value){
-            
+
             // var buttonthing = document.getElementById(value.name);
             // console.log(buttonthing);
             // buttonthing.disabled = true;
@@ -129,11 +131,11 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                //var setRef = firebase.database().ref('nonprofit/' + value.nonprofit + '/notifications/' + numNotes);
                //setRef.set(notifHTML);
             // });
-            
+
         // }
-        
-        
-        
+
+
+
         $scope.checkShow = function(np){
             //console.log(np.skills);
             np.skills.forEach(function(skill){
@@ -144,7 +146,7 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                     return false;
                 }
             })
-            
+
         }
 
         $scope.filterResults = function(category){
@@ -152,24 +154,34 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
             if($scope.filteredPage == false){
                 $scope.filteredPage = true;//list is the one that is email:object
                 //set all the tags back to false
+                $scope.numChecked = $scope.numChecked + 1;
+                console.log($scope.numChecked);
                 for(var key in $scope.showCategories){ //showCategories is the one that is email:T/F
                     $scope.showCategories[key] = false;
                 }
-                //go through each np, check if it's skills include the checked tag 
-                //if yes, set that np to true in the email list. 
+                //go through each np, check if it's skills include the checked tag
+                //if yes, set that np to true in the email list.
                 for(var key in $scope.list){
+                  console.log(key);
+                  console.log($scope.list);
+                  console.log(category.subcategory);
+                  console.log($scope.list[key].skills);
+                  console.log($scope.showCategories);
                     if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
-                        $scope.showCategories[$scope.list[key].name] = true;
+                        console.log("wht");
+                        $scope.showCategories[key] = true;
                         console.log("adding: " + $scope.list[key].name);
                     }
                 }
                 //$scope.showCategories[category] = true;//so that the one you just checked
             }else{
                 //console.log(category.subcategory);
-                //if the box is (now?) checked     
+                //if the box is (now?) checked
                 if(document.getElementById(category.subcategory).checked){
                     console.log(category.subcategory + "checked");
-                    //for each email in the np object list 
+                    //for each email in the np object list
+                    $scope.numChecked = $scope.numChecked + 1;
+                    console.log($scope.numChecked);
                     for(var key in $scope.list){
                         //if this np includes the checked tag
                         if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
@@ -182,8 +194,10 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                 }else{
                     //box is (now?) unchecked
                     //for each email in the email/np object list
+                    $scope.numChecked = $scope.numChecked - 1;
+                    console.log($scope.numChecked);
                     for(var key in $scope.list){
-                        //if that np's skills includes the unchecked box 
+                        //if that np's skills includes the unchecked box
                         if($scope.list[key].skills.includes(category.subcategory)){//for each np, if that np's skills list contains the checked box, then change showCat
                             $scope.removeNP = true;
                             $scope.list[key].skills.forEach(function(skill){
@@ -199,21 +213,30 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                     }
                     //$scope.showCategories[category.subcategory] = true;
                 }
+
+                if($scope.numChecked === 0){
+                  console.log("back to 0");
+                  for(var key in $scope.showCategories){
+                    $scope.showCategories[key] = true;
+                  }
+
+                  $scope.filteredPage = false;
+                }
             }
             //console.log($scope.showCategories);
             //$scope.$apply();
-            
+
         }
-        
-        
+
+
         var getData = function(){
             var ref = firebase.database().ref('projects/');
-            
+
             ref.once("value").then(function(snapshot){
                 for( var key in snapshot.val()){
                     console.log(key);
                     console.log(snapshot.val()[key]);
-                    
+
                     if(snapshot.val()[key].status === "open"){
                         $scope.list[key] = snapshot.val()[key];
                     }
@@ -226,14 +249,14 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                     // console.log(project.val().key);
                    //console.log($scope.list[np.val()]);
                 // })
-                
+
                 for(var key in $scope.list){
                     $scope.showCategories[key] = true;
                 }
-                
+
                 if(firebase.auth().currentUser != null){
                     console.log("someone logged in");
-                    
+
                     var hash = md5.createHash(firebase.auth().currentUser.email);
                     var ref = firebase.database().ref('Professors/'+hash);
                     ref.once("value").then(function(snapshot){
@@ -252,14 +275,14 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
                             $scope.$apply();
                         }
                     });
-                    
+
                 }
-                
+
                 console.log($scope.showCategories);
                 $scope.$apply();
             });
         }
-        
+
         //checkIfProf();
         getData();
 }]);

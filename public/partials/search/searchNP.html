@@ -1,10 +1,10 @@
 
-<div>
+<div class="nonprofit">
     <div id="mySidenav" class="sidenav">
         <div ng-repeat="(key, value) in categories">
-            <h3><a ng-click="clicked = !clicked"><span class="glyphicon glyphicon-chevron-right"></span>{{key}}</a></h3>
+            <h3><a ng-click="clicked = !clicked"><span class="glyphicon glyphicon-menu-right"></span>{{key}}</a></h3>
             <div uib-collapse = "!clicked">
-                <div class= "well well-lg">
+                <div style="background-color:transparent; padding-left:20%;">
                     <div ng-repeat="subcategory in value">
                         <label><input type="checkbox"
                                       name="{{subcategory}}"
@@ -19,9 +19,10 @@
     </div>
     <div id="page content" class="main">
         <div ng-repeat="(key,value) in list" ng-show="showCategories[value.email]">
-            <a ng-click="getNP(value.email);"><div class="well well-lg" >
-              <h3>{{value.username}}</h3>
-              <p>{{value.about}}</p>
+            <a ng-click="getNP(value.email);"><div class="section" style="padding:20px;margin-bottom:20px;">
+              <h2>{{value.username}}</h2>
+              <hr style="height:2px;border-color=rgb(50,50,50);">
+              <h4>{{value.about}}</h4>
 
             </div></a>
         </div>

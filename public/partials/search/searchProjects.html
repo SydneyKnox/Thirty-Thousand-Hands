@@ -1,13 +1,13 @@
 
-<div>
+<div class="nonprofit">
     <div id="mySidenav" class="sidenav">
         <div ng-repeat="(key, value) in categories">
-            <h3><a ng-click="clicked = !clicked"><span class="glyphicon glyphicon-chevron-right"></span>{{key}}</a></h3>
+            <h3><a ng-click="clicked = !clicked"><span class="glyphicon glyphicon-menu-right"></span>{{key}}</a></h3>
             <div uib-collapse = "!clicked">
-                <div class= "well well-lg">
+                <div style="background-color:transparent; padding-left:20%;">
                     <div ng-repeat="subcategory in value">
-                        <label><input type="checkbox" 
-                                      name="{{subcategory}}"  
+                        <label><input type="checkbox"
+                                      name="{{subcategory}}"
                                       value="{{subcategory}}"
                                       id="{{subcategory}}"
                                       ng-model = "checkModel.value[subcategory]"
@@ -18,8 +18,8 @@
         </div>
     </div>
     <div id="page content" class="main">
-        <div class="well well-lg text-right" ng-repeat="(key,value) in list" ng-show="showCategories[key]">
-            
+        <div class="section" style="padding:20px;margin-bottom:20px;" ng-repeat="(key,value) in list" ng-show="showCategories[key]">
+
             <div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
                 <script type="text/ng-template" id="myModalContent.html">
                     <div class="modal-header">
@@ -34,12 +34,12 @@
                         <button class="btn btn-warning pull-right" type="button" ng-click="$ctrl.cancel()">Cancel</button>
                     </div>
                 </script>
-                <h3 class="pull-left">{{value.name}}</h3>
-                <button type="button" id = "{{value.name}}" class = "btn btn-md" style="pull-right;" ng-click="$ctrl.open(key,value, profHash)" ng-show="isProf && !interests[key]">I'm Interested</button>
-                <button type="button" id = "{{key}}" class = "btn btn-md" style="pull-right;" ng-show="interests[key] && isProf" ng-disabled="true">Awaiting Non-profit Response</button>
-                
-                
-                
+                <div class="row">
+                  <h3 class="pull-left;">{{value.name}}</h3>
+                  <h5 class="pull-left;">{{value.description}}</h5>
+                  <button type="button" id = "{{value.name}}" class = "btn btn-md" style="margin-left:80%;pull-right;" ng-click="$ctrl.open(key,value, profHash)" ng-show="isProf && !interests[key]">I'm Interested</button>
+                  <button type="button" id = "{{key}}" class = "btn btn-md" style="margin-left:80%;pull-right;" ng-show="interests[key] && isProf" ng-disabled="true">Awaiting Non-profit Response</button>
+                </div>
             </div>
         </div>
     </div>
