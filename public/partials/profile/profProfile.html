@@ -1,6 +1,59 @@
-<h1>prof Profile</h1>
-<h1>{{about}}</h1>
-<h1>{{email}}</h1>
-<h1>{{phone}}</h1>
-<h1>{{skills}}</h1>
-<h1>{{username}}</h1>
+<div class="nonprofit">
+  <div class="row">
+    <div class="col-xs-4" style="height:300px;margin-right:0px;padding-right:0px;">
+      <img ng-src={{image}} style="height:100%;width:100%;">
+    </div>
+    <div class="col-xs-8 section" style="height:300px;">
+      <h1 style="color: rgb(100,100,100);">{{username}}</h1>
+      <div class="row" style="height:70px;">
+        <div class="col-xs-6">
+          <h3 style="color: rgb:(100,100,100);"><span class="glyphicon glyphicon-envelope" style="color: rgb(100,100,100);"></span> {{email}}</h3>
+        </div>
+        <div class="col-xs-6">
+          <h3 style="color: rgb(100,100,100);"><span class="glyphicon glyphicon-earphone" style="color: rgb(100,100,100);"></span>  {{phone}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="section" style="margin-top:20px;padding:20px;">
+      <div style="text-align:center;"><h1>Notifications</h1></div>
+      <hr style="height:2px;border-color:#000;">
+          <div id="notifs" ng-repeat="(key,value) in notifications">
+              <p ng-bind-html = value compile = value></p>
+          </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="section" style="margin-top:20px;padding:20px;">
+      <div style="text-align:center;"><h1>Edit Profile Picture</h1></div>
+      <hr style="height:2px;border-color:#000;">
+      <div style="text-align:center;">
+        <form action="http://s3.amazonaws.com/thirtythousandhandsimages" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="key" value="profilePictures/{{hash}}/${filename}" />
+          <input type="hidden" name="acl" value="public-read" />
+          <input type="hidden" name="content-type" value="image/" />
+          <input type="hidden" name="AWSAccessKeyId" value="AKIAIQTRYIJCM7ZR6XUQ" />
+          <input type="hidden" name="policy" value="ewogICJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMTI6MDA6MDAuMDAwWiIsCiAgImNvbmRpdGlvbnMiOiBbCiAgICB7ImJ1Y2tldCI6ICJ0aGlydHl0aG91c2FuZGhhbmRzaW1hZ2VzIiB9LAogICAgeyJhY2wiOiAicHVibGljLXJlYWQiIH0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRrZXkiLCAiIl0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiaW1hZ2UvIl0sCiAgXQp9Cg==" />
+          <input type="hidden" name="signature" value="15UQabgUc7w+e0J+/nsYq1CUHWM=" />
+          <input style="margin-left:44%;" name="file" type="file" id="file"/><br />
+          <input name="submit" value="Upload" type="submit" ng-click="submitPic();" />
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="section" style="margin-top:20px;padding:20px;">
+      <div style="text-align:center;"></h1>My Projects:</h1></div>
+      <hr style="height:2px;border-color:#000;">
+      <div class="row project" ng-repeat="project in projects" style="background-color: rgba(56,119,81,0.5);margin:20px; padding:20px;">
+        <h2>{{project.name}}</h2>
+        <hr>
+        <h3>{{project.description}}</h3><br />
+        <h4 ng-repeat="skill in project.skills" style="display:inline; color: rgb(100,100,100);">|   {{skill}}    |</h4>
+      </div>
+    </div>
+  </div>
+
+</div>
