@@ -56,9 +56,10 @@ angular.module('tutorialWebApp.searchProjects', ['ngRoute','firebase'])
        var numNotes = snapshot.numChildren();
        //<p>fundamentals@class.com is interested in your project proj2!</p>
        // <p style = "pull-right;"><a ng-click="acceptInterest("229a4313b993e5b95347ff52a4906c16")";>Accept</a></p>
-       var buttonHTML = '<p style = "pull-right;"><a ng-click="acceptInterest(\'' + $ctrl.profHash + '\',\''+ $ctrl.key +'\');">Accept</a></p>'
-       var notifHTML = '<p>' + $ctrl.email + ' is interested in your project ' + value.name + '!</p>' + buttonHTML;
        var key = firebase.database().ref('nonprofit/'+value.nonprofit).child('notifications').push().key;
+       var buttonHTML = '<p style = "pull-right;"><a ng-click="acceptInterest(\'' + $ctrl.profHash + '\',\''+ $ctrl.key +'\',\''+key+'\');">Accept</a></p><p><a ng-click="rejectInterest(\'' + $ctrl.profHash + '\',\''+ $ctrl.key +'\',\''+key+'\');">Reject</a></p>';       
+       var notifHTML = '<p>' + $ctrl.email + ' is interested in your project ' + value.name + '!</p>' + buttonHTML;
+
        var updates = {};
        updates['nonprofit/' + value.nonprofit + '/notifications/' + key] = notifHTML;
        firebase.database().ref().update(updates);

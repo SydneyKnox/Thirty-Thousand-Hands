@@ -53,15 +53,80 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
 
     $scope.openProject = false;
 
-    $scope.acceptInterest = function(emailHash, key){
+    $scope.acceptInterest = function(emailHash, key, notifKey){
         console.log("acceptInterest");
         console.log(emailHash);
         console.log(key);
+        console.log(notifKey);
 
+        var profNotification = '<p>' + $scope.email + ' has accepted your interest in the project!</p>';
+        var profkey = firebase.database().ref('Professors/' + emailHash).child('notifications').push().key;
         var updates = {};
         updates['projects/' + key + '/status/'] = 'IP';
         updates['projects/' + key + '/professor/'] = emailHash;
+        updates['Professors/' + emailHash + '/notifications/' + profkey] = profNotification;
         firebase.database().ref().update(updates);
+
+        var notifRef = firebase.database().ref('nonprofit/' + $scope.hash + '/notifications/' + notifKey);
+        notifRef.remove()
+          .then(function() {
+            console.log("Remove succeeded.")
+          })
+          .catch(function(error) {
+            console.log("Remove failed: " + error.message)
+          });
+
+          $scope.$apply();
+
+    }
+
+    $scope.rejectInterest = function(emailHash, key, notifKey){
+      console.log("rejectInterest");
+      console.log(emailHash);
+      console.log(key);
+      console.log(notifKey);
+
+      var profNotification = '<p>' + $scope.email + ' has rejected your interest in the project!</p>';
+      var profkey = firebase.database().ref('Professors/' + emailHash).child('notifications').push().key;
+      var updates = {};
+
+      updates['Professors/' + emailHash + '/notifications/' + profkey] = profNotification;
+
+      firebase.database().ref().update(updates);
+
+      var notifRef = firebase.database().ref('nonprofit/' + $scope.hash + '/notifications/' + notifKey);
+      notifRef.remove()
+        .then(function() {
+          console.log("Remove succeeded.")
+        })
+        .catch(function(error) {
+          console.log("Remove failed: " + error.message)
+        });
+
+      var interestRef = firebase.database().ref('Professors/' + emailHash + '/interests/' + key);
+      interestRef.remove()
+        .then(function(){
+          console.log("Remove Succeeded");
+        })
+        .catch(function(error){
+          console.log("Remove failed: " + error.message);
+        });
+
+        $scope.$apply();
+    }
+
+    $scope.deleteNotif = function(key){
+      console.log("delete " + key);
+      var notifRef = firebase.database().ref('nonprofit/'+ $scope.hash + '/notifications/' + key);
+      notifRef.remove()
+        .then(function() {
+          console.log("Remove succeeded.")
+        })
+        .catch(function(error) {
+          console.log("Remove failed: " + error.message)
+        });
+
+        $scope.$apply();
     }
 
     $scope.createProject = function(){
@@ -122,6 +187,16 @@ angular.module('tutorialWebApp.profile', ['ngRoute','firebase','ngSanitize'])
 
         var hash = md5.createHash(email);
         $scope.hash = hash;
+
+        var notificationRef = firebase.database().ref('nonprofit/' + hash + '/notifications');
+        notificationRef.on('child_removed', function(snapshot){
+          var NPref = firebase.database().ref('nonprofit/' + $scope.hash);
+          console.log("child was removed");
+          NPref.once("value").then(function(snapshot){
+            $scope.notifications = snapshot.child('notifications/').val();
+            $scope.$apply();
+          });
+        });
 
         var NPref = firebase.database().ref('nonprofit/' + hash);
         NPref.once("value")

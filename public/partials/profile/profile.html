@@ -30,8 +30,9 @@
     <div class="section" style="margin-top:20px;padding:20px;">
       <div style="text-align:center;"><h1>Notifications</h1></div>
       <hr style="height:2px;border-color:#000;">
-          <div id="notifs" ng-repeat="(key,value) in notifications">
-              <p ng-bind-html = value compile = value></p>
+          <div class="row" id="notifs" ng-repeat="(key,value) in notifications" style="margin-left:20%;margin-right:20%;">
+              <p ng-bind-html = value compile = value class="pull-left"></p>
+              <button type="button" class="btn btn-sm pull-right" ng-click="deleteNotif(key)" style="background-color:transparent;"><span class="glyphicon glyphicon-remove"></span></button>
           </div>
     </div>
   </div>

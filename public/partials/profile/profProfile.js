@@ -24,9 +24,6 @@ angular.module('tutorialWebApp.profProfile', ['ngRoute','firebase'])
     $scope.projects = {};
     $scope.projectNums = {};
 
-//TODO add profile Picture getting (STORED BY EMAIL HASH)
-//TODO add notifications getting...will be stored under 'notifications/'
-//TODO get my projects
 
     $scope.submitPic = function(){
       var hash = md5.createHash($scope.email);
@@ -39,6 +36,18 @@ angular.module('tutorialWebApp.profProfile', ['ngRoute','firebase'])
       //https://s3.amazonaws.com/thirtythousandhandsimages/profilePictures/1493d0f6731e9073840b47f9d586f7b8/december.jpg
       updates['Professors/'+ hash +'/picture'] = 'https://s3.amazonaws.com/thirtythousandhandsimages/profilePictures/' + hash + '/' + filename.files[0].name;
       firebase.database().ref().update(updates);
+    }
+
+    $scope.deleteNotif = function(key){
+      console.log("delete " + key);
+      var notifRef = firebase.database().ref('Professors/'+ $scope.hash + '/notifications/' + key);
+      notifRef.remove()
+        .then(function() {
+          console.log("Remove succeeded.")
+        })
+        .catch(function(error) {
+          console.log("Remove failed: " + error.message)
+        });
     }
 
     function getProjects(){
@@ -65,6 +74,16 @@ angular.module('tutorialWebApp.profProfile', ['ngRoute','firebase'])
 
         var hash = md5.createHash(email);
         $scope.hash=hash;
+
+        var notificationRef = firebase.database().ref('Professors/' + hash + '/notifications');
+        notificationRef.on('child_removed', function(snapshot){
+          var ProfRef = firebase.database().ref('Professors/' + $scope.hash);
+          console.log("child was removed");
+          ProfRef.once("value").then(function(snapshot){
+            $scope.notifications = snapshot.child('notifications/').val();
+            $scope.$apply();
+          });
+        });
 
         var ref = firebase.database().ref('Professors/' + hash +'/email');
         ref.once("value")
